@@ -1,16 +1,19 @@
 package ru.practicum.explorewithme.statistics.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class EndpointHitDto {
-    private final String app;
-    private final String uri;
-    private final String ip;
+    private String app;
+    private String uri;
+    private String ip;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private final LocalDateTime timestamp;
+    private LocalDateTime timestamp;
 }

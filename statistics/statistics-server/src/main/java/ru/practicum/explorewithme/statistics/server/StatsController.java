@@ -22,7 +22,7 @@ public class StatsController {
     @PostMapping("/hit")
     @ResponseStatus(HttpStatus.CREATED)
     public void hit(@RequestBody @Valid EndpointHitDto endpointHit) {
-        log.info("Создание пользователя: {} ", endpointHit);
+        log.info("Создание пользователя:  {} ", endpointHit);
         service.hit(endpointHit);
     }
 

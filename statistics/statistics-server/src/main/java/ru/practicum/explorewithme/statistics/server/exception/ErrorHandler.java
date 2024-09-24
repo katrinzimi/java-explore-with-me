@@ -19,6 +19,7 @@ public class ErrorHandler {
                 "Внутренняя ошибка сервера", e.getMessage()
         );
     }
+
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiError handle(final BindException e) {

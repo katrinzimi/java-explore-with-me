@@ -1,4 +1,4 @@
-package ru.practicum.explorewithme.statistics.server.service;
+package ru.practicum.explorewithme.statistics.client;
 
 import ru.practicum.explorewithme.statistics.dto.EndpointHitDto;
 import ru.practicum.explorewithme.statistics.dto.StatsRequestDto;
@@ -6,9 +6,8 @@ import ru.practicum.explorewithme.statistics.dto.ViewStatsDto;
 
 import java.util.List;
 
-public interface EndpointHitService {
+public interface StatClient {
+    List<ViewStatsDto> stats(StatsRequestDto requestDto);
 
     void hit(EndpointHitDto endpointHit);
-
-    List<ViewStatsDto> getStats(StatsRequestDto requestDto);
 }

@@ -1,12 +1,12 @@
 package ru.practicum.explorewithme.statistics.server.exception;
 
-public class ErrorResponse {
+public class ApiError {
     // название ошибки
     String error;
     // подробное описание
     String description;
 
-    public ErrorResponse(String error, String description) {
+    public ApiError(String error, String description) {
         this.error = error;
         this.description = description;
     }

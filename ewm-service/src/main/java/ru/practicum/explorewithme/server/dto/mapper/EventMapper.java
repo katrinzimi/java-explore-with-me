@@ -18,6 +18,7 @@ public class EventMapper {
                 .views(event.getViews())
                 .build();
     }
+
     public static EventFullDto toEventFullDto(Event event) {
         return EventFullDto.builder()
                 .id(event.getId())

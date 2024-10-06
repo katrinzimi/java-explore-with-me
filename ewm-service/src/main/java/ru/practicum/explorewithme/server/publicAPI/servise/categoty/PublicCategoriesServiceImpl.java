@@ -4,7 +4,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.practicum.explorewithme.server.dto.category.CategoryDto;
 import ru.practicum.explorewithme.server.dto.mapper.CategoryMapper;
-import ru.practicum.explorewithme.server.model.Category;
 import ru.practicum.explorewithme.server.repository.CategoriesRepository;
 
 import java.util.List;

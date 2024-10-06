@@ -5,6 +5,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.Set;
+
 @AllArgsConstructor
 @Data
 public class UpdateCompilationRequest {

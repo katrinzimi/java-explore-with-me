@@ -10,12 +10,14 @@ public class CategoryMapper {
                 category.getId(),
                 category.getName());
     }
+
     public static Category toCategory(NewCategoryDto newCategoryDto) {
         return new Category(
                 null,
                 newCategoryDto.getName());
     }
-    public static Category toCategory(NewCategoryDto newCategoryDto,Category category) {
+
+    public static Category toCategory(NewCategoryDto newCategoryDto, Category category) {
         return new Category(
                 category.getId(),
                 newCategoryDto.getName());

@@ -6,10 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.explorewithme.server.adminAPI.servise.compilation.AdminCompilationService;
 import ru.practicum.explorewithme.server.dto.compilation.CompilationDto;
 import ru.practicum.explorewithme.server.dto.compilation.NewCompilationDto;
 import ru.practicum.explorewithme.server.dto.compilation.UpdateCompilationRequest;
-import ru.practicum.explorewithme.server.adminAPI.servise.compilation.AdminCompilationService;
 
 @Controller
 @AllArgsConstructor

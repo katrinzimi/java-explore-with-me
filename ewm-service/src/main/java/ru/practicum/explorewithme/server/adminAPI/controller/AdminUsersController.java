@@ -22,6 +22,7 @@ import java.util.List;
 public class AdminUsersController {
 
     private final AdminUserService service;
+
     @GetMapping()
     public List<UserDto> getAll(@RequestParam(required = false) List<Integer> ids,
                                 @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,

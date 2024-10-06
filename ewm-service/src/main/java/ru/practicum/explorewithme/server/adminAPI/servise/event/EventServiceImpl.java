@@ -6,8 +6,9 @@ import ru.practicum.explorewithme.server.dto.event.EventFullDto;
 import ru.practicum.explorewithme.server.dto.event.UpdateEventAdminRequest;
 
 import java.util.List;
+
 @Service
-public class EventServiceImpl implements EventService{
+public class EventServiceImpl implements EventService {
     @Override
     public EventFullDto update(Long eventId, UpdateEventAdminRequest updateEvent) {
         return null;

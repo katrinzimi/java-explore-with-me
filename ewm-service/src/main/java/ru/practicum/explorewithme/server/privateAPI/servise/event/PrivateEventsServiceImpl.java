@@ -5,8 +5,9 @@ import ru.practicum.explorewithme.server.dto.event.*;
 
 import java.util.List;
 import java.util.Set;
+
 @Service
-public class PrivateEventsServiceImpl implements PrivateEventsService{
+public class PrivateEventsServiceImpl implements PrivateEventsService {
     @Override
     public Set<EventShortDto> getAll(Long userId, Integer from, Integer size) {
         return null;

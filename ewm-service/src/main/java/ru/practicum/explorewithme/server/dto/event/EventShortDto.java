@@ -6,8 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-import ru.practicum.explorewithme.server.dto.user.UserShortDto;
 import ru.practicum.explorewithme.server.dto.category.CategoryDto;
+import ru.practicum.explorewithme.server.dto.user.UserShortDto;
 
 import java.time.LocalDateTime;
 

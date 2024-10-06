@@ -4,8 +4,9 @@ import org.springframework.stereotype.Service;
 import ru.practicum.explorewithme.server.dto.event.ParticipationRequestDto;
 
 import java.util.List;
+
 @Service
-public class PrivateRequestServiceImpl implements PrivateRequestService{
+public class PrivateRequestServiceImpl implements PrivateRequestService {
     @Override
     public List<ParticipationRequestDto> getRequests(Long userId) {
         return null;

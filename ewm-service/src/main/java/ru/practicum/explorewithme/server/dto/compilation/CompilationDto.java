@@ -6,6 +6,7 @@ import lombok.Data;
 import ru.practicum.explorewithme.server.dto.event.EventShortDto;
 
 import java.util.List;
+
 @AllArgsConstructor
 @Data
 @Builder

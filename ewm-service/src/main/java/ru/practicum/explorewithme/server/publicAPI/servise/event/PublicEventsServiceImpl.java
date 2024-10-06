@@ -4,9 +4,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.explorewithme.server.dto.event.EventFullDto;
 import ru.practicum.explorewithme.server.dto.event.EventShortDto;
+import ru.practicum.explorewithme.server.dto.mapper.EventMapper;
 import ru.practicum.explorewithme.server.publicAPI.dto.RequestParamEvent;
 import ru.practicum.explorewithme.server.repository.EventRepository;
-import ru.practicum.explorewithme.server.dto.mapper.EventMapper;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,6 +22,7 @@ public class PublicEventsServiceImpl implements PublicEventsService {
                 EventMapper::toEventShortDto
         ).collect(Collectors.toList());
     }
+
     @Override
     public EventFullDto get(Long id) {
         return EventMapper.toEventFullDto(repository.findById(id).orElseThrow());

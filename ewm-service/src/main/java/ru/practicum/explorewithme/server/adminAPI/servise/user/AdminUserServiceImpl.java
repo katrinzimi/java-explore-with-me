@@ -5,8 +5,9 @@ import ru.practicum.explorewithme.server.dto.user.NewUserRequest;
 import ru.practicum.explorewithme.server.dto.user.UserDto;
 
 import java.util.List;
+
 @Service
-public class AdminUserServiceImpl implements AdminUserService{
+public class AdminUserServiceImpl implements AdminUserService {
     @Override
     public List<UserDto> getAll(List<Integer> ids, Integer from, Integer size) {
         return null;

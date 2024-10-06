@@ -6,7 +6,6 @@ import ru.practicum.explorewithme.server.dto.compilation.CompilationDto;
 import ru.practicum.explorewithme.server.dto.compilation.NewCompilationDto;
 import ru.practicum.explorewithme.server.dto.compilation.UpdateCompilationRequest;
 import ru.practicum.explorewithme.server.model.Event;
-//import ru.practicum.explorewithme.server.repository.CompilationRepository;
 import ru.practicum.explorewithme.server.repository.EventRepository;
 
 import java.util.Set;

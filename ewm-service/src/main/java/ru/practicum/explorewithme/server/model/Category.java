@@ -1,10 +1,7 @@
 package ru.practicum.explorewithme.server.model;
 
-import lombok.*;
-
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter

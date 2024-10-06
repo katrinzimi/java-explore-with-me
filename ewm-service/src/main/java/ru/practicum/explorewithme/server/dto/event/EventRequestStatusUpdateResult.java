@@ -1,6 +1,7 @@
 package ru.practicum.explorewithme.server.dto.event;
 
 import lombok.*;
+
 import java.util.List;
 
 @Getter

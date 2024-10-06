@@ -5,7 +5,6 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explorewithme.server.adminAPI.servise.user.AdminUserService;
 import ru.practicum.explorewithme.server.dto.user.NewUserRequest;
@@ -13,11 +12,10 @@ import ru.practicum.explorewithme.server.dto.user.UserDto;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
-@Slf4j
 @RequestMapping("/admin/users")
-@Validated
 public class AdminUsersController {
 
     private final AdminUserService service;

@@ -1,5 +1,6 @@
 package ru.practicum.explorewithme.server.adminAPI.servise.user;
 
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.practicum.explorewithme.server.dto.mapper.UserMapper;
@@ -11,8 +12,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class AdminUserServiceImpl implements AdminUserService {
-    UserRepository repository;
+    private final UserRepository repository;
 
     @Override
     public List<UserDto> getAll(List<Long> ids, Integer from, Integer size) {

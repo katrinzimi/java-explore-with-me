@@ -5,7 +5,6 @@ import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explorewithme.server.adminAPI.dto.RequestParamForEvent;
@@ -16,7 +15,7 @@ import ru.practicum.explorewithme.server.dto.event.UpdateEventAdminRequest;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/admin/events")

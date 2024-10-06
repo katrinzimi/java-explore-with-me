@@ -5,7 +5,6 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explorewithme.server.adminAPI.servise.user.AdminUserService;
@@ -14,7 +13,7 @@ import ru.practicum.explorewithme.server.dto.user.UserDto;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/admin/users")
@@ -24,7 +23,7 @@ public class AdminUsersController {
     private final AdminUserService service;
 
     @GetMapping()
-    public List<UserDto> getAll(@RequestParam(required = false) List<Integer> ids,
+    public List<UserDto> getAll(@RequestParam(required = false) List<Long> ids,
                                 @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
                                 @RequestParam(defaultValue = "10") @Positive Integer size) {
         log.info("Получение списка пользователей ");

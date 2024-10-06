@@ -4,14 +4,13 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explorewithme.server.adminAPI.servise.compilation.AdminCompilationService;
 import ru.practicum.explorewithme.server.dto.compilation.CompilationDto;
 import ru.practicum.explorewithme.server.dto.compilation.NewCompilationDto;
 import ru.practicum.explorewithme.server.dto.compilation.UpdateCompilationRequest;
 
-@Controller
+@RestController
 @AllArgsConstructor
 @Slf4j
 @RequestMapping("/admin/compilations")
@@ -35,7 +34,7 @@ public class AdminCompilationsController {
     @PatchMapping("/{compId}")
     @ResponseStatus(HttpStatus.OK)
     public CompilationDto update(@PathVariable Long compId,
-                                                 @RequestBody @Valid UpdateCompilationRequest updateCompilationRequest) {
+                                 @RequestBody @Valid UpdateCompilationRequest updateCompilationRequest) {
         log.info("Получен запрос на изменение подборки.");
         return service.update(compId, updateCompilationRequest);
     }

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import ru.practicum.explorewithme.server.dto.LocationDto;
 import ru.practicum.explorewithme.server.dto.category.CategoryDto;
 import ru.practicum.explorewithme.server.dto.user.UserShortDto;
-import ru.practicum.explorewithme.server.model.enums.State;
+import ru.practicum.explorewithme.server.model.enums.EventState;
 
 import java.time.LocalDateTime;
 
@@ -31,7 +31,7 @@ public class EventFullDto {
     private long participantLimit;
     private LocalDateTime publishedOn;
     private boolean requestModeration;
-    private State state;
+    private EventState state;
     private String title;
     private Integer views;
 }

@@ -7,10 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.explorewithme.server.adminAPI.dto.RequestParamForEvent;
 import ru.practicum.explorewithme.server.adminAPI.servise.event.EventService;
 import ru.practicum.explorewithme.server.dto.event.EventFullDto;
 import ru.practicum.explorewithme.server.dto.event.UpdateEventAdminRequest;
+import ru.practicum.explorewithme.server.publicAPI.dto.RequestParamEvent;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -43,7 +43,7 @@ public class AdminEventsController {
                                     @RequestParam(defaultValue = "10") @Positive int size) {
         log.info("Получение списка событий.");
 
-        RequestParamForEvent param = RequestParamForEvent.builder()
+        RequestParamEvent param = RequestParamEvent.builder()
                 .users(users)
                 .states(states)
                 .categories(categories)

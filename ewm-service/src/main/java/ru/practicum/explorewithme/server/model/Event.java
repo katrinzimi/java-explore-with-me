@@ -2,6 +2,7 @@ package ru.practicum.explorewithme.server.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import ru.practicum.explorewithme.server.model.enums.EventState;
 
 import java.time.LocalDateTime;
 
@@ -65,7 +66,7 @@ public class Event {
 //    @Column(name = "published_on", nullable = false)
 //    private LocalDateTime publishedOn;
 
-//    @Enumerated(EnumType.STRING)
-//    @Column(nullable = false)
-//    private EventState state;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private EventState state;
 }

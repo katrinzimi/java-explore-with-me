@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS events (
   title VARCHAR(255) NOT NULL,
   views INTEGER ,
   participant_limit INTEGER,
+  state VARCHAR(50) NOT NULL,
   CONSTRAINT pk_events PRIMARY KEY (id)
 );
 

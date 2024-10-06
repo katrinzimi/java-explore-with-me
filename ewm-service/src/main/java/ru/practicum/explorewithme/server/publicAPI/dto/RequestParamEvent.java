@@ -20,4 +20,6 @@ public class RequestParamEvent {
     private RequestParamEventSort sort;
     private int from;
     private int size;
+    private List<Long> users;
+    private List<String> states;
 }

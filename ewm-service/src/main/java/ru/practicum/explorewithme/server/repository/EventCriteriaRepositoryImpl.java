@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import ru.practicum.explorewithme.server.model.Category;
 import ru.practicum.explorewithme.server.model.Event;
+import ru.practicum.explorewithme.server.model.User;
 import ru.practicum.explorewithme.server.publicAPI.dto.RequestParamEvent;
 
 import java.time.LocalDateTime;
@@ -56,6 +57,13 @@ public class EventCriteriaRepositoryImpl implements EventCriteriaRepository {
                     builder.greaterThan(eventRoot.get("participantLimit"), eventRoot.get("confirmedRequests"))
             );
             predicates.add(onlyAvailablePredicate);
+        }
+        if (!request.getUsers().isEmpty()) {
+            Join<Event, User> userJoin = eventRoot.join("initiator");
+            predicates.add(userJoin.get("id").in(request.getUsers()));
+        }
+        if (!request.getStates().isEmpty()) {
+            predicates.add(eventRoot.get("state").in(request.getStates()));
         }
         Predicate allPredicates = builder.and(predicates.toArray(new Predicate[0]));
 

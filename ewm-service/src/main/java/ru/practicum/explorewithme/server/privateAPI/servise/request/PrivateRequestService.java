@@ -1,4 +1,4 @@
-package ru.practicum.explorewithme.server.privateAPI.servise;
+package ru.practicum.explorewithme.server.privateAPI.servise.request;
 
 import ru.practicum.explorewithme.server.dto.event.ParticipationRequestDto;
 

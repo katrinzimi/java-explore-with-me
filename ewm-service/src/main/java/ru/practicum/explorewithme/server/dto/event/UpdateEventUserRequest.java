@@ -30,7 +30,7 @@ public class UpdateEventUserRequest {
     private LocationDto location;
     private Boolean paid;
     @PositiveOrZero
-    private Long participantLimit;
+    private Integer participantLimit;
     private Boolean requestModeration;
     @Length(min = 3, max = 120)
     @NotBlank

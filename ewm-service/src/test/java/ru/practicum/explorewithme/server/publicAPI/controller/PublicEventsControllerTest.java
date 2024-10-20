@@ -1,5 +1,6 @@
 package ru.practicum.explorewithme.server.publicAPI.controller;
 
+import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,15 +12,20 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.practicum.explorewithme.server.JsonUtil;
-import ru.practicum.explorewithme.server.dto.category.CategoryDto;
+import ru.practicum.explorewithme.server.dto.event.EventFullDto;
 import ru.practicum.explorewithme.server.dto.event.EventShortDto;
-import ru.practicum.explorewithme.server.dto.user.UserShortDto;
+import ru.practicum.explorewithme.server.dto.mapper.EventMapper;
+import ru.practicum.explorewithme.server.model.Category;
+import ru.practicum.explorewithme.server.model.Event;
+import ru.practicum.explorewithme.server.model.User;
+import ru.practicum.explorewithme.server.model.enums.EventState;
 import ru.practicum.explorewithme.server.publicAPI.servise.event.PublicEventsService;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -27,6 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(controllers = PublicEventsController.class)
 @Profile("test")
 class PublicEventsControllerTest {
+    Event event;
 
     @Autowired
     private MockMvc mvc;
@@ -36,6 +43,10 @@ class PublicEventsControllerTest {
 
     @BeforeEach
     void setUp() {
+        event = new Event(1, "title", "annotation",
+                Category.builder().id(1L).name("kino").build(), LocalDateTime.now(),
+                5, true, 2,
+                User.builder().id(1L).name("Vanya").email("vanya@mail.ru").build(), 2, EventState.PUBLISHED);
     }
 
     @AfterEach
@@ -44,11 +55,9 @@ class PublicEventsControllerTest {
 
     @Test
     void getAllEvents() throws Exception {
-        EventShortDto event1 = new EventShortDto(1L, "Event 1", "Cool", CategoryDto.builder().build(),
-                2, LocalDateTime.now(), UserShortDto.builder().build(), false, 2);
-
+        EventShortDto eventShortDto = EventMapper.toEventShortDto(event);
         List<EventShortDto> events = List.of(
-                event1
+                eventShortDto
         );
         Mockito.when(eventsService.getAll(any())).thenReturn(events);
 
@@ -57,12 +66,23 @@ class PublicEventsControllerTest {
                         .content(JsonUtil.toJson(events)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(events.size()))
-                .andExpect(jsonPath("$[0].id").value(event1.getId()))
-                .andExpect(jsonPath("$[0].title").value(event1.getTitle()))
-                .andExpect(jsonPath("$[0].annotation").value(event1.getAnnotation()));
+                .andExpect(jsonPath("$[0].id").value(eventShortDto.getId()))
+                .andExpect(jsonPath("$[0].title").value(eventShortDto.getTitle()))
+                .andExpect(jsonPath("$[0].annotation").value(eventShortDto.getAnnotation()));
     }
 
     @Test
-    void getEvent() {
+    void getEvent() throws Exception {
+        EventFullDto eventFullDto = EventMapper.toEventFullDto(event);
+        Mockito.when(eventsService.get(eq(1L))).thenReturn(eventFullDto);
+
+        mvc.perform(get("/events/{id}", 1L)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(JsonUtil.toJson(eventFullDto)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title").value(eventFullDto.getTitle()))
+                .andExpect(jsonPath("$.annotation").value(eventFullDto.getAnnotation()))
+                .andExpect(jsonPath("$.paid").value(eventFullDto.isPaid()))
+                .andExpect(jsonPath("$.views").value(eventFullDto.getViews()));
     }
 }

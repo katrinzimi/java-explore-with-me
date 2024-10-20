@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.practicum.explorewithme.server.dto.event.EventFullDto;
 import ru.practicum.explorewithme.server.dto.event.UpdateEventAdminRequest;
 import ru.practicum.explorewithme.server.dto.mapper.EventMapper;
+import ru.practicum.explorewithme.server.model.Event;
 import ru.practicum.explorewithme.server.publicAPI.dto.RequestParamEvent;
 import ru.practicum.explorewithme.server.repository.EventRepository;
 
@@ -18,7 +19,9 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public EventFullDto update(Long eventId, UpdateEventAdminRequest updateEvent) {
-        return null;
+        Event event = repository.findById(eventId).orElseThrow();
+        Event updatedEvent = EventMapper.toEventUpdate(updateEvent, event);
+        return EventMapper.toEventFullDto(repository.save(updatedEvent));
     }
 
     @Override

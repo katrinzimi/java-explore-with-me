@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explorewithme.server.dto.event.ParticipationRequestDto;
-import ru.practicum.explorewithme.server.privateAPI.servise.PrivateRequestService;
+import ru.practicum.explorewithme.server.privateAPI.servise.request.PrivateRequestService;
 
 import java.util.List;
 

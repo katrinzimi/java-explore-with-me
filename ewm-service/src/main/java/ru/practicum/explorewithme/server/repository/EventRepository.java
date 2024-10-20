@@ -1,5 +1,6 @@
 package ru.practicum.explorewithme.server.repository;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -8,6 +9,7 @@ import ru.practicum.explorewithme.server.model.Event;
 import ru.practicum.explorewithme.server.publicAPI.dto.RequestParamEvent;
 
 import java.util.List;
+import java.util.Set;
 
 
 public interface EventRepository extends JpaRepository<Event, Long>, EventCriteriaRepository {
@@ -26,4 +28,10 @@ public interface EventRepository extends JpaRepository<Event, Long>, EventCriter
             WHERE (e.annotation like '%:#{#request.text}%')
             """)
     List<EventShortDto> getAllShortEvents(@Param("request") RequestParamEvent paramEvent);
+
+    Set<EventShortDto> findAllByRequesterId(Long userId, PageRequest request);
+
+    Event findByIdAndInitiatorId(Long eventId, Long userId);
+
+    boolean existsByIdAndInitiatorId(Long eventId, Long userId);
 }

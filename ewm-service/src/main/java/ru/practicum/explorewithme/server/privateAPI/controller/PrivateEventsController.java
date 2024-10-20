@@ -4,7 +4,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explorewithme.server.dto.event.*;
 import ru.practicum.explorewithme.server.privateAPI.servise.event.PrivateEventsService;
@@ -12,7 +11,7 @@ import ru.practicum.explorewithme.server.privateAPI.servise.event.PrivateEventsS
 import java.util.List;
 import java.util.Set;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/users/{userId}/events")

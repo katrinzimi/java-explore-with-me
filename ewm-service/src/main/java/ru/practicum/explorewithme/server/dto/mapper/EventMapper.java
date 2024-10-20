@@ -49,6 +49,7 @@ public class EventMapper {
                 .eventDate(eventDto.getEventDate())
                 .category(Category.builder().id(eventDto.getCategory()).build())
                 .initiator(user)
+                .state(EventState.PENDING)
                 .build();
     }
 

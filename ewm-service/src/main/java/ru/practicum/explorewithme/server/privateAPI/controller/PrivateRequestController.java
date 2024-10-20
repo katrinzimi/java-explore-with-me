@@ -3,14 +3,13 @@ package ru.practicum.explorewithme.server.privateAPI.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explorewithme.server.dto.event.ParticipationRequestDto;
 import ru.practicum.explorewithme.server.privateAPI.servise.request.PrivateRequestService;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/users/{userId}/requests")

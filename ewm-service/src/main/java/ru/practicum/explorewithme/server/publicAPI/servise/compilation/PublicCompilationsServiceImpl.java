@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.practicum.explorewithme.server.dto.compilation.CompilationDto;
-import ru.practicum.explorewithme.server.dto.mapper.CategoryMapper;
 import ru.practicum.explorewithme.server.dto.mapper.CompilationMapper;
 import ru.practicum.explorewithme.server.model.Compilation;
 import ru.practicum.explorewithme.server.repository.CompilationRepository;

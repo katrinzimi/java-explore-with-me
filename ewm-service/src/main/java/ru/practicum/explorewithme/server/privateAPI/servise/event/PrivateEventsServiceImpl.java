@@ -5,14 +5,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.practicum.explorewithme.server.adminAPI.exception.NotFoundException;
 import ru.practicum.explorewithme.server.dto.event.*;
-import ru.practicum.explorewithme.server.dto.mapper.CompilationMapper;
 import ru.practicum.explorewithme.server.dto.mapper.EventMapper;
 import ru.practicum.explorewithme.server.dto.mapper.RequestMapper;
-import ru.practicum.explorewithme.server.model.Compilation;
 import ru.practicum.explorewithme.server.model.Event;
 import ru.practicum.explorewithme.server.model.Request;
 import ru.practicum.explorewithme.server.model.User;
-import ru.practicum.explorewithme.server.model.enums.EventRequestStatus;
 import ru.practicum.explorewithme.server.model.enums.EventState;
 import ru.practicum.explorewithme.server.model.enums.RequestState;
 import ru.practicum.explorewithme.server.repository.EventRepository;
@@ -22,7 +19,6 @@ import ru.practicum.explorewithme.server.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -36,7 +32,7 @@ public class PrivateEventsServiceImpl implements PrivateEventsService {
         PageRequest request = PageRequest.of(from / size, size);
         Set<EventShortDto> dtoSet;
         if (userId != null) {
-            dtoSet = eventRepository.findAllByRequesterId(userId, request);
+            dtoSet = EventMapper.toEventShortDtoList(eventRepository.findAllByRequesterId(userId, request));
         } else {
             dtoSet = EventMapper.toEventShortDtoList(eventRepository.findAll(request).toSet());
         }
@@ -79,90 +75,57 @@ public class PrivateEventsServiceImpl implements PrivateEventsService {
     @Override
     public EventRequestStatusUpdateResult updateRequestStatus(Long userId, Long eventId,
                                                               EventRequestStatusUpdateRequest request) {
-
-
-        //  10
-//        request.getRequestIds().size();
-
         User user = userRepository.findById(userId).orElseThrow();
         Event event = eventRepository.findById(eventId).orElseThrow();
         List<Request> allRequest = requestRepository.findAllById(request.getRequestIds());
 
-        List<ParticipationRequestDto> confirmedRequests = new ArrayList<>();
-        List<ParticipationRequestDto> rejectedRequests = new ArrayList<>();
+        List<Request> requestToConfirm = new ArrayList<>();
+        List<Request> requestToReject = new ArrayList<>();
 
-        if (request.getStatus().equals(EventRequestStatus.CONFIRMED)) {
-            if (event.getParticipantLimit() != null && event.getParticipantLimit() > 0) {
-                int available = event.getParticipantLimit() - event.getConfirmedRequests();
+        switch (request.getStatus()) {
+            case CONFIRMED -> {
+                if (event.getParticipantLimit() != null && event.getParticipantLimit() > 0) {
+                    int available = event.getParticipantLimit() - event.getConfirmedRequests();
 
-                if (request.getRequestIds().size() < available) {
-                    allRequest.forEach(request1 -> request1.setStatus(RequestState.CONFIRMED));
-                    requestRepository.saveAll(allRequest);
-                    confirmedRequests.addAll(allRequest.stream()
-                            .map(r -> new ParticipationRequestDto(r.getId(), r.getCreated(), r.getEvent().getId(),
-                                    r.getRequester().getId(), RequestState.CONFIRMED))
-                            .toList());
-                    event.setConfirmedRequests(event.getConfirmedRequests() + request.getRequestIds().size());
-                    eventRepository.save(event);
-
+                    if (request.getRequestIds().size() < available) {
+                        requestToConfirm.addAll(allRequest);
+                    } else {
+                        requestToConfirm.addAll(allRequest.subList(0, available));
+                        requestToReject.addAll(allRequest.subList(available, allRequest.size()));
+                    }
                 } else {
-                    List<Request> requestToConfirm = allRequest.subList(0, available);
-                    List<Request> requestToReject = allRequest.subList(available, allRequest.size());
-
-                    requestToConfirm.forEach(request1 -> request1.setStatus(RequestState.CONFIRMED));
-                    requestRepository.saveAll(allRequest);
-                    confirmedRequests.addAll(allRequest.stream()
-                            .map(r -> new ParticipationRequestDto(r.getId(), r.getCreated(), r.getEvent().getId(),
-                                    r.getRequester().getId(), RequestState.CONFIRMED))
-                            .toList());
-
-                    requestToReject.forEach(request1 -> request1.setStatus(RequestState.REJECTED));
-                    requestRepository.saveAll(allRequest);
-                    rejectedRequests.addAll(allRequest.stream()
-                            .map(r -> new ParticipationRequestDto(r.getId(), r.getCreated(), r.getEvent().getId(),
-                                    r.getRequester().getId(), RequestState.REJECTED))
-                            .toList());
-
-                    event.setConfirmedRequests(event.getConfirmedRequests() + available);
-                    eventRepository.save(event);
-
+                    requestToConfirm.addAll(allRequest);
                 }
-
-
-            } else {
-                allRequest.forEach(request1 -> request1.setStatus(RequestState.CONFIRMED));
-                requestRepository.saveAll(allRequest);
-                confirmedRequests.addAll(allRequest.stream()
-                        .map(r -> new ParticipationRequestDto(r.getId(), r.getCreated(), r.getEvent().getId(),
-                                r.getRequester().getId(), RequestState.CONFIRMED))
-                        .toList());
-
-                event.setConfirmedRequests(event.getConfirmedRequests() + request.getRequestIds().size());
-                eventRepository.save(event);
+            }
+            case REJECTED -> {
+                requestToReject.addAll(allRequest);
             }
         }
-        if (request.getStatus().equals(EventRequestStatus.REJECTED)) {
-            allRequest.forEach(request1 -> request1.setStatus(RequestState.REJECTED));
-            requestRepository.saveAll(allRequest);
-            rejectedRequests.addAll(allRequest.stream()
-                    .map(r -> new ParticipationRequestDto(r.getId(), r.getCreated(), r.getEvent().getId(),
-                            r.getRequester().getId(), RequestState.REJECTED))
-                    .toList());
-        }
+
+        requestToConfirm.forEach(r -> r.setStatus(RequestState.CONFIRMED));
+        requestRepository.saveAll(requestToConfirm);
+        List<ParticipationRequestDto> confirmedRequests = new ArrayList<>(toRequestDto(requestToConfirm, RequestState.CONFIRMED));
+
+        event.setConfirmedRequests(event.getConfirmedRequests() + requestToConfirm.size());
+        eventRepository.save(event);
 
         if (event.getConfirmedRequests() == event.getParticipantLimit()) {
             // надо отклонить все оставшиеся заявки
-
             List<Request> allPendingRequests = requestRepository.findAllByEventAndState(eventId, EventState.PENDING);
-            allPendingRequests.forEach(r -> r.setStatus(RequestState.REJECTED));
-            requestRepository.saveAll(allPendingRequests);
-            rejectedRequests.addAll(allPendingRequests.stream()
-                    .map(r -> new ParticipationRequestDto(r.getId(), r.getCreated(), r.getEvent().getId(),
-                            r.getRequester().getId(), RequestState.REJECTED))
-                    .toList());
+            requestToReject.addAll(allPendingRequests);
         }
 
+        requestToReject.forEach(r -> r.setStatus(RequestState.REJECTED));
+        requestRepository.saveAll(requestToReject);
+        List<ParticipationRequestDto> rejectedRequests = new ArrayList<>(toRequestDto(requestToReject, RequestState.REJECTED));
 
         return new EventRequestStatusUpdateResult(confirmedRequests, rejectedRequests);
+    }
+
+    private static List<ParticipationRequestDto> toRequestDto(List<Request> requests, RequestState toState) {
+        return requests.stream()
+                .map(r -> new ParticipationRequestDto(r.getId(), r.getCreated(), r.getEvent().getId(),
+                        r.getRequester().getId(), toState))
+                .toList();
     }
 }

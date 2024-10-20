@@ -1,6 +1,6 @@
 package ru.practicum.explorewithme.server.repository;
 
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -29,7 +29,7 @@ public interface EventRepository extends JpaRepository<Event, Long>, EventCriter
             """)
     List<EventShortDto> getAllShortEvents(@Param("request") RequestParamEvent paramEvent);
 
-    Set<EventShortDto> findAllByRequesterId(Long userId, PageRequest request);
+    Set<Event> findAllByRequesterId(Long userId, Pageable request);
 
     Event findByIdAndInitiatorId(Long eventId, Long userId);
 

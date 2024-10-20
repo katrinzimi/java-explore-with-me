@@ -1,6 +1,5 @@
 package ru.practicum.explorewithme.server.publicAPI.controller;
 
-import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

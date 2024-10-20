@@ -32,9 +32,9 @@ public class PrivateEventsServiceImpl implements PrivateEventsService {
         PageRequest request = PageRequest.of(from / size, size);
         Set<EventShortDto> dtoSet;
         if (userId != null) {
-            dtoSet = EventMapper.toEventShortDtoList(eventRepository.findAllByRequesterId(userId, request));
+            dtoSet = EventMapper.toEventShortDtoList(eventRepository.findAllByInitiatorId(userId, request));
         } else {
-            dtoSet = EventMapper.toEventShortDtoList(eventRepository.findAll(request).toSet());
+            dtoSet = EventMapper.toEventShortDtoList(eventRepository.findAll(request).stream().toList());
         }
         return dtoSet;
     }
@@ -111,7 +111,7 @@ public class PrivateEventsServiceImpl implements PrivateEventsService {
 
         if (event.getConfirmedRequests() == event.getParticipantLimit()) {
             // надо отклонить все оставшиеся заявки
-            List<Request> allPendingRequests = requestRepository.findAllByEventAndState(eventId, EventState.PENDING);
+            List<Request> allPendingRequests = requestRepository.findAllByEventIdAndStatus(eventId, EventState.PENDING);
             requestToReject.addAll(allPendingRequests);
         }
 

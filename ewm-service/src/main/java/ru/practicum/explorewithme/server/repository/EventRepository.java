@@ -9,7 +9,6 @@ import ru.practicum.explorewithme.server.model.Event;
 import ru.practicum.explorewithme.server.publicAPI.dto.RequestParamEvent;
 
 import java.util.List;
-import java.util.Set;
 
 
 public interface EventRepository extends JpaRepository<Event, Long>, EventCriteriaRepository {
@@ -29,7 +28,7 @@ public interface EventRepository extends JpaRepository<Event, Long>, EventCriter
             """)
     List<EventShortDto> getAllShortEvents(@Param("request") RequestParamEvent paramEvent);
 
-    Set<Event> findAllByRequesterId(Long userId, Pageable request);
+    List<Event> findAllByInitiatorId(Long userId, Pageable request);
 
     Event findByIdAndInitiatorId(Long eventId, Long userId);
 

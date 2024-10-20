@@ -8,6 +8,7 @@ import ru.practicum.explorewithme.server.model.Event;
 import ru.practicum.explorewithme.server.model.User;
 import ru.practicum.explorewithme.server.model.enums.EventState;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -103,7 +104,7 @@ public class EventMapper {
         return event;
     }
 
-    public static Set<EventShortDto> toEventShortDtoList(Set<Event> events) {
+    public static Set<EventShortDto> toEventShortDtoList(List<Event> events) {
         return events.stream().map(EventMapper::toEventShortDto).collect(Collectors.toSet());
     }
 }

@@ -25,7 +25,7 @@ public class PrivateRequestServiceImpl implements PrivateRequestService {
     @Override
     public List<ParticipationRequestDto> getRequests(Long userId) {
         userRepository.findById(userId).orElseThrow();
-        return requestRepository.findAllByRequesterId(userId);
+        return RequestMapper.toDtoList(requestRepository.findAllByRequesterId(userId));
     }
 
     @Override

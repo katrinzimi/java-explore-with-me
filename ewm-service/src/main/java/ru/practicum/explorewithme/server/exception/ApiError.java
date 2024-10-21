@@ -1,22 +1,20 @@
 package ru.practicum.explorewithme.server.exception;
 
+import lombok.Getter;
+
+@Getter
 public class ApiError {
-    // название ошибки
-    String error;
-    // подробное описание
-    String description;
+    private String error;
+    private String message;
+    private String status;
+    private String timestamp;
+    private String reason;
 
-    public ApiError(String error, String description) {
+    public ApiError(String error, String message, String status, String timestamp, String reason) {
         this.error = error;
-        this.description = description;
-    }
-
-    // геттеры необходимы, чтобы Spring Boot мог получить значения полей
-    public String getError() {
-        return error;
-    }
-
-    public String getDescription() {
-        return description;
+        this.message = message;
+        this.status = status;
+        this.timestamp = timestamp;
+        this.reason = reason;
     }
 }

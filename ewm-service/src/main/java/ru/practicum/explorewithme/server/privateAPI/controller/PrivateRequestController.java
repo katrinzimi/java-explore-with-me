@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explorewithme.server.dto.event.ParticipationRequestDto;
+import ru.practicum.explorewithme.server.exception.ValidationException;
 import ru.practicum.explorewithme.server.privateAPI.servise.request.PrivateRequestService;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class PrivateRequestController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ParticipationRequestDto create(@PathVariable Long userId,
-                                          @RequestParam Long eventId) {
+                                          @RequestParam(required = false) Long eventId) {
         log.info("");
         return service.create(userId, eventId);
     }

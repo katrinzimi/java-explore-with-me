@@ -26,8 +26,8 @@ public class Event {
     @Column(nullable = false)
     private String annotation;
 
-//    @Column(nullable = false)
-//    private String description;
+    @Column(nullable = false)
+    private String description;
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
@@ -39,8 +39,8 @@ public class Event {
     @Column(name = "participant_limit")
     private Integer participantLimit;
 
-//    @Embedded
-//    private Location location;
+    @Embedded
+    private Location location;
 
     @Column()
     private boolean paid;
@@ -48,23 +48,23 @@ public class Event {
     @Column(name = "confirmed_requests")
     private int confirmedRequests;
 
-//    @Column()
-//    @Builder.Default
-//    private boolean requestModeration = true;
+    @Column()
+    @Builder.Default
+    private boolean requestModeration = true;
 
     @JoinColumn(name = "initiator_id")
     @ManyToOne
     private User initiator;
 
-    @Column
-    private Integer views;
+//    @Column
+//    private Integer views;
 
-//    @Column()
-//    private LocalDateTime createdOn;
+    @Column()
+    private LocalDateTime createdOn;
 
-//    @Temporal(TemporalType.TIMESTAMP)
-//    @Column(name = "published_on", nullable = false)
-//    private LocalDateTime publishedOn;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "published_on", nullable = false)
+    private LocalDateTime publishedOn;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

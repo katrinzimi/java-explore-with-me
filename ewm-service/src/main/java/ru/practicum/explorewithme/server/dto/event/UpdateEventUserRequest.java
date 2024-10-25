@@ -1,7 +1,6 @@
 package ru.practicum.explorewithme.server.dto.event;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,11 +18,9 @@ import java.time.LocalDateTime;
 public class UpdateEventUserRequest {
 
     @Length(min = 20, max = 2000)
-    @NotBlank
     private String annotation;
     private Long category;
     @Length(min = 20, max = 7000)
-    @NotBlank
     private String description;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime eventDate;
@@ -33,6 +30,5 @@ public class UpdateEventUserRequest {
     private Integer participantLimit;
     private Boolean requestModeration;
     @Length(min = 3, max = 120)
-    @NotBlank
     private String title;
 }

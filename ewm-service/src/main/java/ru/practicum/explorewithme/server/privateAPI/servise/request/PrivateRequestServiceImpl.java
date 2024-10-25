@@ -32,9 +32,13 @@ public class PrivateRequestServiceImpl implements PrivateRequestService {
         return RequestMapper.toDtoList(requestRepository.findAllByRequesterId(userId));
     }
 
+    @SuppressWarnings("checkstyle:WhitespaceAround")
     @Override
     public ParticipationRequestDto create(Long userId, Long eventId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException(""));
+        if (eventId == null) {
+            throw new ValidationException("");
+        }
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new NotFoundException(""));
         if (requestRepository.existsByRequesterIdAndEventId(userId, eventId)) {
             throw new ConflictException("Нельзя добавить повторный запрос");
@@ -45,7 +49,7 @@ public class PrivateRequestServiceImpl implements PrivateRequestService {
         if (!event.getState().equals(EventState.PUBLISHED)) {
             throw new ConflictException("Нельзя участвовать в неопубликованном событии");
         }
-        if (event.getParticipantLimit().equals(event.getConfirmedRequests())) {
+        if (event.getParticipantLimit() != 0 && event.getParticipantLimit().equals(event.getConfirmedRequests())) {
             throw new ConflictException("Количество участников в событии достигло предела");
         }
         Request request = Request.builder()

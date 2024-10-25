@@ -6,6 +6,7 @@ import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import ru.practicum.explorewithme.server.adminAPI.exception.NotFoundException;
 
 import java.time.LocalDateTime;
 
@@ -52,6 +53,16 @@ public class ErrorHandler {
         log.info("Ошибка 409 при обработке запроса");
         return new ApiError("Ошибка 409 при обработке запроса", e.getMessage(),
                 HttpStatus.CONFLICT.toString(),
+                LocalDateTime.now().toString(),
+                "Для запрошенной операции условия не выполнены");
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ApiError handleNotFound(final NotFoundException e) {
+        log.info("Ошибка 404 при обработке запроса");
+        return new ApiError("Ошибка 404 при обработке запроса", e.getMessage(),
+                HttpStatus.NOT_FOUND.toString(),
                 LocalDateTime.now().toString(),
                 "Для запрошенной операции условия не выполнены");
     }

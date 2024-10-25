@@ -6,9 +6,11 @@ import jakarta.persistence.criteria.*;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.util.CollectionUtils;
 import ru.practicum.explorewithme.server.model.Category;
 import ru.practicum.explorewithme.server.model.Event;
 import ru.practicum.explorewithme.server.model.User;
+import ru.practicum.explorewithme.server.model.enums.EventState;
 import ru.practicum.explorewithme.server.publicAPI.dto.RequestParamEvent;
 
 import java.time.LocalDateTime;
@@ -31,12 +33,15 @@ public class EventCriteriaRepositoryImpl implements EventCriteriaRepository {
 
         if (request.getText() != null) {
             Predicate annotationPredicate = builder.like(
-                    builder.lower(eventRoot.get("annotation")), "%" + request.getText() + "%"
+                    builder.lower(eventRoot.get("annotation")), "%" + request.getText().toLowerCase() + "%"
             );
-            predicates.add(annotationPredicate);
+            Predicate descriptionPredicate = builder.like(
+                    builder.lower(eventRoot.get("description")), "%" + request.getText().toLowerCase() + "%"
+            );
+            predicates.add(builder.or(annotationPredicate, descriptionPredicate));
         }
 
-        if (!request.getCategories().isEmpty()) {
+        if (!CollectionUtils.isEmpty(request.getCategories())) {
             Join<Event, Category> categoryJoin = eventRoot.join("category");
             predicates.add(categoryJoin.get("id").in(request.getCategories()));
         }
@@ -49,6 +54,8 @@ public class EventCriteriaRepositoryImpl implements EventCriteriaRepository {
             LocalDateTime rangeStart = Objects.requireNonNullElse(request.getRangeStart(), LocalDateTime.MIN);
             LocalDateTime rangeEnd = Objects.requireNonNullElse(request.getRangeEnd(), LocalDateTime.MAX);
             predicates.add(builder.between(eventRoot.get("eventDate"), rangeStart, rangeEnd));
+        } else {
+            predicates.add(builder.greaterThan(eventRoot.get("eventDate"), LocalDateTime.now()));
         }
 
         if (Boolean.TRUE.equals(request.getOnlyAvailable())) {
@@ -58,20 +65,23 @@ public class EventCriteriaRepositoryImpl implements EventCriteriaRepository {
             );
             predicates.add(onlyAvailablePredicate);
         }
-        if (!request.getUsers().isEmpty()) {
+        if (!CollectionUtils.isEmpty(request.getUsers())) {
             Join<Event, User> userJoin = eventRoot.join("initiator");
             predicates.add(userJoin.get("id").in(request.getUsers()));
         }
-        if (!request.getStates().isEmpty()) {
+        if (!CollectionUtils.isEmpty(request.getStates())) {
             predicates.add(eventRoot.get("state").in(request.getStates()));
+        } else {
+            predicates.add(builder.equal(eventRoot.get("state"), EventState.PUBLISHED));
         }
         Predicate allPredicates = builder.and(predicates.toArray(new Predicate[0]));
 
         query.where(allPredicates);
-
-        switch (request.getSort()) {
-            case EVENT_DATE -> query.orderBy(builder.asc(eventRoot.get("eventDate")));
-            case VIEWS -> query.orderBy(builder.asc(eventRoot.get("views")));
+        if (request.getSort() != null) {
+            switch (request.getSort()) {
+                case EVENT_DATE -> query.orderBy(builder.asc(eventRoot.get("eventDate")));
+                case VIEWS -> query.orderBy(builder.asc(eventRoot.get("views")));
+            }
         }
 
         TypedQuery<Event> typedQuery = entityManager.createQuery(query);

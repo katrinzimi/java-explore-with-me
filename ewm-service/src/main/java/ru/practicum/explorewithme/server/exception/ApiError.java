@@ -4,11 +4,11 @@ import lombok.Getter;
 
 @Getter
 public class ApiError {
-    private String error;
-    private String message;
-    private String status;
-    private String timestamp;
-    private String reason;
+    private final String error;
+    private final String message;
+    private final String status;
+    private final String timestamp;
+    private final String reason;
 
     public ApiError(String error, String message, String status, String timestamp, String reason) {
         this.error = error;

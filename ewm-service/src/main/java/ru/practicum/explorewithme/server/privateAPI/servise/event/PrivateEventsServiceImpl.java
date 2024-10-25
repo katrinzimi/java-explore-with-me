@@ -7,6 +7,7 @@ import ru.practicum.explorewithme.server.adminAPI.exception.NotFoundException;
 import ru.practicum.explorewithme.server.dto.event.*;
 import ru.practicum.explorewithme.server.dto.mapper.EventMapper;
 import ru.practicum.explorewithme.server.dto.mapper.RequestMapper;
+import ru.practicum.explorewithme.server.exception.ValidationException;
 import ru.practicum.explorewithme.server.model.Event;
 import ru.practicum.explorewithme.server.model.Request;
 import ru.practicum.explorewithme.server.model.User;
@@ -16,6 +17,7 @@ import ru.practicum.explorewithme.server.repository.EventRepository;
 import ru.practicum.explorewithme.server.repository.RequestRepository;
 import ru.practicum.explorewithme.server.repository.UserRepository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -63,6 +65,7 @@ public class PrivateEventsServiceImpl implements PrivateEventsService {
 
     @Override
     public EventFullDto update(Long userId, Long eventId, UpdateEventUserRequest updateRequest) {
+
         userRepository.findById(userId).orElseThrow();
         Event event = eventRepository.findById(eventId).orElseThrow();
         if (!event.getInitiator().getId().equals(userId)) {
@@ -73,10 +76,12 @@ public class PrivateEventsServiceImpl implements PrivateEventsService {
     }
 
     @Override
-    public EventRequestStatusUpdateResult updateRequestStatus(Long userId, Long eventId,
-                                                              EventRequestStatusUpdateRequest request) {
+    public EventRequestStatusUpdateResult updateRequestStatus(Long userId, Long eventId, EventRequestStatusUpdateRequest request) {
         User user = userRepository.findById(userId).orElseThrow();
         Event event = eventRepository.findById(eventId).orElseThrow();
+        if (event.getEventDate() != null) {
+            checkEventDate(event.getEventDate());
+        }
         List<Request> allRequest = requestRepository.findAllById(request.getRequestIds());
 
         List<Request> requestToConfirm = new ArrayList<>();
@@ -127,5 +132,11 @@ public class PrivateEventsServiceImpl implements PrivateEventsService {
                 .map(r -> new ParticipationRequestDto(r.getId(), r.getCreated(), r.getEvent().getId(),
                         r.getRequester().getId(), toState))
                 .toList();
+    }
+
+    private void checkEventDate(LocalDateTime eventDate) {
+        if (eventDate.isBefore(LocalDateTime.now().plusHours(1))) {
+            throw new ValidationException("Дата начала события должна быть не ранее чем за час от даты публикации");
+        }
     }
 }

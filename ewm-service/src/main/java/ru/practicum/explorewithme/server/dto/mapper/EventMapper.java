@@ -1,13 +1,16 @@
 package ru.practicum.explorewithme.server.dto.mapper;
 
+import ru.practicum.explorewithme.server.dto.LocationDto;
 import ru.practicum.explorewithme.server.dto.category.CategoryDto;
 import ru.practicum.explorewithme.server.dto.event.*;
 import ru.practicum.explorewithme.server.dto.user.UserShortDto;
 import ru.practicum.explorewithme.server.model.Category;
 import ru.practicum.explorewithme.server.model.Event;
+import ru.practicum.explorewithme.server.model.Location;
 import ru.practicum.explorewithme.server.model.User;
 import ru.practicum.explorewithme.server.model.enums.EventState;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -23,7 +26,6 @@ public class EventMapper {
                 .category(CategoryDto.builder().id(event.getCategory().getId()).build())
                 .confirmedRequests(event.getConfirmedRequests())
                 .initiator(UserShortDto.builder().id(event.getInitiator().getId()).build())
-                .views(event.getViews())
                 .build();
     }
 
@@ -37,7 +39,15 @@ public class EventMapper {
                 .category(CategoryDto.builder().id(event.getCategory().getId()).build())
                 .confirmedRequests(event.getConfirmedRequests())
                 .initiator(UserShortDto.builder().id(event.getInitiator().getId()).build())
-                .views(event.getViews())
+                .state(event.getState())
+                .location(LocationDto.builder().lat(event.getLocation().getLat())
+                        .lon(event.getLocation().getLon())
+                        .build())
+                .publishedOn(event.getPublishedOn())
+                .description(event.getDescription())
+                .createdOn(event.getCreatedOn())
+                .requestModeration(event.isRequestModeration())
+                .participantLimit(event.getParticipantLimit())
                 .build();
     }
 
@@ -50,6 +60,12 @@ public class EventMapper {
                 .category(Category.builder().id(eventDto.getCategory()).build())
                 .initiator(user)
                 .state(EventState.PENDING)
+                .createdOn(LocalDateTime.now())
+                .location(Location.builder().lon(eventDto.getLocation().getLon())
+                        .lat(eventDto.getLocation().getLat()).build())
+                .participantLimit(eventDto.getParticipantLimit())
+                .requestModeration(eventDto.isRequestModeration())
+                .description(eventDto.getDescription())
                 .build();
     }
 
@@ -102,6 +118,7 @@ public class EventMapper {
         if (eventUserRequest.getParticipantLimit() != null) {
             event.setParticipantLimit(eventUserRequest.getParticipantLimit());
         }
+        event.setState(EventState.PENDING);
         return event;
     }
 

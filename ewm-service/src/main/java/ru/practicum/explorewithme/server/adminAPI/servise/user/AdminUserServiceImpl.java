@@ -2,10 +2,12 @@ package ru.practicum.explorewithme.server.adminAPI.servise.user;
 
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.practicum.explorewithme.server.dto.mapper.UserMapper;
 import ru.practicum.explorewithme.server.dto.user.NewUserRequest;
 import ru.practicum.explorewithme.server.dto.user.UserDto;
+import ru.practicum.explorewithme.server.exception.ConflictException;
 import ru.practicum.explorewithme.server.repository.UserRepository;
 
 import java.util.List;
@@ -18,8 +20,9 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Override
     public List<UserDto> getAll(List<Long> ids, Integer from, Integer size) {
-        if (ids.isEmpty()) {
-            return repository.findAll(PageRequest.of(from / size, size))
+        if (ids == null) {
+            return repository.findAll(PageRequest.of(from / size, size,
+                            Sort.by(Sort.Direction.ASC, "id")))
                     .getContent()
                     .stream()
                     .map(UserMapper::toUserDto)
@@ -32,6 +35,9 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Override
     public UserDto save(NewUserRequest newUserRequest) {
+        if (repository.existsByEmail(newUserRequest.getEmail())) {
+            throw new ConflictException("dhnsdhj");
+        }
         return UserMapper.toUserDto(repository.save(UserMapper.toUser(newUserRequest)));
     }
 

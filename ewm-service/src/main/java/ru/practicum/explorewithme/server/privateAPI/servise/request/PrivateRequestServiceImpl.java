@@ -49,22 +49,33 @@ public class PrivateRequestServiceImpl implements PrivateRequestService {
         if (!event.getState().equals(EventState.PUBLISHED)) {
             throw new ConflictException("Нельзя участвовать в неопубликованном событии");
         }
-        if (event.getParticipantLimit() != 0 && event.getParticipantLimit().equals(event.getConfirmedRequests())) {
+        if (event.getParticipantLimit() != 0 && event.getParticipantLimit() == (event.getConfirmedRequests())) {
             throw new ConflictException("Количество участников в событии достигло предела");
         }
         Request request = Request.builder()
                 .requester(user)
                 .created(LocalDateTime.now())
                 .event(event)
-                .status(RequestState.PENDING)
                 .build();
+        if (canConfirmAllRequests(event)) {
+            request.setStatus(RequestState.CONFIRMED);
+            event.setConfirmedRequests(event.getConfirmedRequests() + 1);
+            eventRepository.save(event);
+        } else {
+            request.setStatus(RequestState.PENDING);
+        }
         return RequestMapper.participationRequestDto(requestRepository.save(request));
     }
 
     @Override
     public ParticipationRequestDto update(Long userId, Long requestsId) {
         Request request = requestRepository.findByIdAndRequesterId(requestsId, userId);
-        request.setStatus(RequestState.CANCELED);
-        return RequestMapper.participationRequestDto(requestRepository.save(request));
+        ParticipationRequestDto participationRequestDto = RequestMapper.participationRequestDto(requestRepository.save(request));
+        participationRequestDto.setStatus(RequestState.CANCELED);
+        return participationRequestDto;
+    }
+
+    private boolean canConfirmAllRequests(Event event) {
+        return !event.isRequestModeration() || event.getParticipantLimit() == 0;
     }
 }

@@ -2,6 +2,7 @@ package ru.practicum.explorewithme.server.dto.mapper;
 
 import ru.practicum.explorewithme.server.dto.category.CategoryDto;
 import ru.practicum.explorewithme.server.dto.category.NewCategoryDto;
+import ru.practicum.explorewithme.server.exception.ConflictException;
 import ru.practicum.explorewithme.server.model.Category;
 
 public class CategoryMapper {

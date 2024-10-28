@@ -28,7 +28,7 @@ public class EventFullDto {
     private UserShortDto initiator;
     private LocationDto location;
     private boolean paid;
-    private long participantLimit;
+    private int participantLimit;
     private LocalDateTime publishedOn;
     private boolean requestModeration;
     private EventState state;

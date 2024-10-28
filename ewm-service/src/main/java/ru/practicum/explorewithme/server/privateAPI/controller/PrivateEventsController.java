@@ -21,7 +21,7 @@ public class PrivateEventsController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public Set<EventShortDto> getAll(@PathVariable Long userId,
+    public List<EventShortDto> getAll(@PathVariable Long userId,
                                      @RequestParam(defaultValue = "0") Integer from,
                                      @RequestParam(defaultValue = "10") Integer size) {
         log.info("");

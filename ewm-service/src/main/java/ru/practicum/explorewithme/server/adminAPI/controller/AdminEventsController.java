@@ -1,6 +1,7 @@
 package ru.practicum.explorewithme.server.adminAPI.controller;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +33,7 @@ public class AdminEventsController {
     @PatchMapping("/{eventId}")
     @ResponseStatus(HttpStatus.OK)
     public EventFullDto update(@PathVariable Long eventId,
-                               @RequestBody UpdateEventAdminRequest updateEvent) {
+                               @RequestBody @Valid UpdateEventAdminRequest updateEvent) {
         log.info("Получен запрос на изменение события.");
         return eventService.update(eventId, updateEvent);
     }

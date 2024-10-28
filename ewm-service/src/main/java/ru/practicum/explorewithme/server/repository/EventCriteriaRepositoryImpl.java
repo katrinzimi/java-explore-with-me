@@ -55,7 +55,7 @@ public class EventCriteriaRepositoryImpl implements EventCriteriaRepository {
             LocalDateTime rangeEnd = Objects.requireNonNullElse(request.getRangeEnd(), LocalDateTime.MAX);
             predicates.add(builder.between(eventRoot.get("eventDate"), rangeStart, rangeEnd));
         } else {
-            predicates.add(builder.greaterThan(eventRoot.get("eventDate"), LocalDateTime.now()));
+            predicates.add(builder.greaterThanOrEqualTo(eventRoot.get("eventDate"), LocalDateTime.now()));
         }
 
         if (Boolean.TRUE.equals(request.getOnlyAvailable())) {

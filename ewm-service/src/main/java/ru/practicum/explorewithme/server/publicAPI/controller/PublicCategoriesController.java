@@ -21,8 +21,9 @@ public class PublicCategoriesController {
     @ResponseStatus(HttpStatus.OK)
     public List<CategoryDto> getAll(@RequestParam(defaultValue = "0") int from,
                                     @RequestParam(defaultValue = "10") int size) {
-        log.info("");
-        return categoriesService.getAll(from, size);
+        List<CategoryDto> result = categoriesService.getAll(from, size);
+        log.info("{}", result.size());
+        return result;
     }
 
     @GetMapping("/{catId}")

@@ -9,10 +9,11 @@ import ru.practicum.explorewithme.server.model.Event;
 import ru.practicum.explorewithme.server.model.Location;
 import ru.practicum.explorewithme.server.model.User;
 import ru.practicum.explorewithme.server.model.enums.EventState;
+import ru.practicum.explorewithme.server.model.enums.EventStateAction;
+import ru.practicum.explorewithme.server.model.enums.StateAction;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class EventMapper {
@@ -70,6 +71,9 @@ public class EventMapper {
     }
 
     public static Event toEventUpdate(UpdateEventAdminRequest updateEventAdminRequest, Event event) {
+        if (updateEventAdminRequest.getDescription() != null) {
+            event.setDescription(updateEventAdminRequest.getDescription());
+        }
         if (updateEventAdminRequest.getAnnotation() != null) {
             event.setAnnotation(updateEventAdminRequest.getAnnotation());
         }
@@ -89,10 +93,10 @@ public class EventMapper {
             event.setParticipantLimit(updateEventAdminRequest.getParticipantLimit());
         }
         if (updateEventAdminRequest.getStateAction() != null) {
-            if (updateEventAdminRequest.getStateAction().equals(UpdateEventAdminRequest.StateAction.PUBLISH_EVENT)) {
+            if (updateEventAdminRequest.getStateAction().equals(StateAction.PUBLISH_EVENT)) {
                 event.setState(EventState.PUBLISHED);
             }
-            if (updateEventAdminRequest.getStateAction().equals(UpdateEventAdminRequest.StateAction.REJECT_EVENT)) {
+            if (updateEventAdminRequest.getStateAction().equals(StateAction.REJECT_EVENT)) {
                 event.setState(EventState.CANCELED);
             }
         }
@@ -118,11 +122,18 @@ public class EventMapper {
         if (eventUserRequest.getParticipantLimit() != null) {
             event.setParticipantLimit(eventUserRequest.getParticipantLimit());
         }
-        event.setState(EventState.PENDING);
+        if (eventUserRequest.getStateAction() != null) {
+            if (eventUserRequest.getStateAction().equals(EventStateAction.SEND_TO_REVIEW)) {
+                event.setState(EventState.PENDING);
+            }
+            if (eventUserRequest.getStateAction().equals(EventStateAction.CANCEL_REVIEW)) {
+                event.setState(EventState.CANCELED);
+            }
+        }
         return event;
     }
 
-    public static Set<EventShortDto> toEventShortDtoList(List<Event> events) {
-        return events.stream().map(EventMapper::toEventShortDto).collect(Collectors.toSet());
+    public static List<EventShortDto> toEventShortDtoList(List<Event> events) {
+        return events.stream().map(EventMapper::toEventShortDto).collect(Collectors.toList());
     }
 }

@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 import ru.practicum.explorewithme.server.dto.LocationDto;
+import ru.practicum.explorewithme.server.model.enums.EventStateAction;
+import ru.practicum.explorewithme.server.model.enums.StateAction;
 
 import java.time.LocalDateTime;
 
@@ -31,4 +33,6 @@ public class UpdateEventUserRequest {
     private Boolean requestModeration;
     @Length(min = 3, max = 120)
     private String title;
+    private EventStateAction stateAction;
+
 }

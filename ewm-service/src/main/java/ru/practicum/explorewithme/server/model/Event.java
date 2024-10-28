@@ -37,7 +37,7 @@ public class Event {
     private LocalDateTime eventDate;
 
     @Column(name = "participant_limit")
-    private Integer participantLimit;
+    private int participantLimit;
 
     @Embedded
     private Location location;
@@ -56,8 +56,8 @@ public class Event {
     @ManyToOne
     private User initiator;
 
-//    @Column
-//    private Integer views;
+    @Column
+    private Integer views;
 
     @Column()
     private LocalDateTime createdOn;

@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static java.time.temporal.ChronoUnit.SECONDS;
+
 @AllArgsConstructor
 public class EventCriteriaRepositoryImpl implements EventCriteriaRepository {
 
@@ -51,8 +53,10 @@ public class EventCriteriaRepositoryImpl implements EventCriteriaRepository {
         }
 
         if (request.getRangeStart() != null || request.getRangeEnd() != null) {
-            LocalDateTime rangeStart = Objects.requireNonNullElse(request.getRangeStart(), LocalDateTime.MIN);
-            LocalDateTime rangeEnd = Objects.requireNonNullElse(request.getRangeEnd(), LocalDateTime.MAX);
+            LocalDateTime rangeStart = Objects.requireNonNullElse(request.getRangeStart(), LocalDateTime.MIN)
+                    .truncatedTo(SECONDS);
+            LocalDateTime rangeEnd = Objects.requireNonNullElse(request.getRangeEnd(), LocalDateTime.MAX)
+                    .truncatedTo(SECONDS);
             predicates.add(builder.between(eventRoot.get("eventDate"), rangeStart, rangeEnd));
         } else {
             predicates.add(builder.greaterThanOrEqualTo(eventRoot.get("eventDate"), LocalDateTime.now()));

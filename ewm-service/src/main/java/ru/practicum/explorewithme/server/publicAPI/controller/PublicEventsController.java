@@ -63,7 +63,7 @@ public class PublicEventsController {
 
     @GetMapping("/{id}")
     public EventFullDto get(@PathVariable Long id, HttpServletRequest request) {
-        log.info("Получение события");
+        log.info("Получение события по id {}", id);
         return eventsService.get(id, request);
     }
 }

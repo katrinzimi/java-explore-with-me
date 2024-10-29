@@ -3,7 +3,6 @@ package ru.practicum.explorewithme.server.privateAPI.servise.event;
 import ru.practicum.explorewithme.server.dto.event.*;
 
 import java.util.List;
-import java.util.Set;
 
 public interface PrivateEventsService {
     List<EventShortDto> getAll(Long userId, Integer from, Integer size);

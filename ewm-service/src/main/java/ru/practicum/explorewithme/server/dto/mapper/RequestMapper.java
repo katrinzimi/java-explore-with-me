@@ -2,7 +2,6 @@ package ru.practicum.explorewithme.server.dto.mapper;
 
 import ru.practicum.explorewithme.server.dto.event.ParticipationRequestDto;
 import ru.practicum.explorewithme.server.model.Request;
-import ru.practicum.explorewithme.server.model.enums.RequestState;
 
 import java.util.List;
 import java.util.stream.Collectors;

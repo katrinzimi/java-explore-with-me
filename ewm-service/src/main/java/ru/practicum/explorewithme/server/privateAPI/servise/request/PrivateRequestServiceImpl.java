@@ -35,11 +35,11 @@ public class PrivateRequestServiceImpl implements PrivateRequestService {
     @SuppressWarnings("checkstyle:WhitespaceAround")
     @Override
     public ParticipationRequestDto create(Long userId, Long eventId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException(""));
+        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("Пользоватеь не найден"));
         if (eventId == null) {
-            throw new ValidationException("");
+            throw new ValidationException("id события отсутствует");
         }
-        Event event = eventRepository.findById(eventId).orElseThrow(() -> new NotFoundException(""));
+        Event event = eventRepository.findById(eventId).orElseThrow(() -> new NotFoundException("Событие не найдено"));
         if (requestRepository.existsByRequesterIdAndEventId(userId, eventId)) {
             throw new ConflictException("Нельзя добавить повторный запрос");
         }

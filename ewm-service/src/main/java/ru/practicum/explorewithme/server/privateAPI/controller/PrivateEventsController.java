@@ -9,7 +9,6 @@ import ru.practicum.explorewithme.server.dto.event.*;
 import ru.practicum.explorewithme.server.privateAPI.servise.event.PrivateEventsService;
 
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,9 +21,9 @@ public class PrivateEventsController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<EventShortDto> getAll(@PathVariable Long userId,
-                                     @RequestParam(defaultValue = "0") Integer from,
-                                     @RequestParam(defaultValue = "10") Integer size) {
-        log.info("");
+                                      @RequestParam(defaultValue = "0") Integer from,
+                                      @RequestParam(defaultValue = "10") Integer size) {
+        log.info("Получение событий, добавленных текущим пользователем");
         return service.getAll(userId, from, size);
     }
 
@@ -32,7 +31,7 @@ public class PrivateEventsController {
     @ResponseStatus(HttpStatus.OK)
     public EventFullDto get(@PathVariable Long userId,
                             @PathVariable Long eventId) {
-        log.info("");
+        log.info("Получение полной информации о событии добавленном текущим пользователем");
         return service.get(userId, eventId);
     }
 
@@ -40,7 +39,7 @@ public class PrivateEventsController {
     @ResponseStatus(HttpStatus.OK)
     public List<ParticipationRequestDto> getRequests(@PathVariable Long userId,
                                                      @PathVariable Long eventId) {
-        log.info("");
+        log.info("Получение полной информации о событии добавленном текущим пользователем");
         return service.getRequests(userId, eventId);
     }
 
@@ -48,7 +47,7 @@ public class PrivateEventsController {
     @ResponseStatus(HttpStatus.CREATED)
     public EventFullDto create(@PathVariable Long userId,
                                @RequestBody @Valid NewEventDto eventDto) {
-        log.info("");
+        log.info("Добавление нового события");
         return service.create(userId, eventDto);
     }
 
@@ -56,7 +55,7 @@ public class PrivateEventsController {
     @ResponseStatus(HttpStatus.OK)
     public EventFullDto update(@PathVariable Long userId, @PathVariable Long eventId,
                                @RequestBody @Valid UpdateEventUserRequest eventDto) {
-        log.info("");
+        log.info("Изменение события добавленного текущим пользователем");
         return service.update(userId, eventId, eventDto);
     }
 
@@ -65,7 +64,7 @@ public class PrivateEventsController {
     public EventRequestStatusUpdateResult updateRequestStatus(@PathVariable Long userId,
                                                               @PathVariable Long eventId,
                                                               @RequestBody EventRequestStatusUpdateRequest request) {
-        log.info("");
+        log.info("Изменение статуса (подтверждена, отменена) заявок на участие в событии текущего пользователя");
         return service.updateRequestStatus(userId, eventId, request);
     }
 

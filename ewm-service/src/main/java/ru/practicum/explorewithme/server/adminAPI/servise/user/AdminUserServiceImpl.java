@@ -36,7 +36,7 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Override
     public UserDto save(NewUserRequest newUserRequest) {
         if (repository.existsByEmail(newUserRequest.getEmail())) {
-            throw new ConflictException("dhnsdhj");
+            throw new ConflictException("Емаил уже используется");
         }
         return UserMapper.toUserDto(repository.save(UserMapper.toUser(newUserRequest)));
     }

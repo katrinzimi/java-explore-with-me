@@ -20,7 +20,7 @@ public class PrivateRequestController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<ParticipationRequestDto> getRequests(@PathVariable Long userId) {
-        log.info("");
+        log.info("Получение информации о заявках текущего пользователя на участие в чужих событиях");
         return service.getRequests(userId);
     }
 
@@ -28,14 +28,14 @@ public class PrivateRequestController {
     @ResponseStatus(HttpStatus.CREATED)
     public ParticipationRequestDto create(@PathVariable Long userId,
                                           @RequestParam(required = false) Long eventId) {
-        log.info("");
+        log.info("Добавление запроса от текущего пользователя на участие в событии");
         return service.create(userId, eventId);
     }
 
     @PatchMapping("/{requestsId}/cancel")
     @ResponseStatus(HttpStatus.OK)
     public ParticipationRequestDto update(@PathVariable Long userId, @PathVariable Long requestsId) {
-        log.info("");
+        log.info("Отмена своего запроса на участие в событии");
         return service.update(userId, requestsId);
     }
 

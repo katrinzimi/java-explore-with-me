@@ -23,7 +23,7 @@ public class AdminCategoriesServiceImpl implements AdminCategoriesService {
     @Override
     public CategoryDto create(NewCategoryDto dto) {
         if (categoriesRepository.existsByName(dto.getName())) {
-            throw new ConflictException("dhnsdhj");
+            throw new ConflictException("Имя категории уже занято");
         }
         Category savedCategory = categoriesRepository.save(CategoryMapper.toCategory(dto));
         return CategoryMapper.toCategoryDto(savedCategory);

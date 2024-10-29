@@ -48,7 +48,7 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
     @Override
     public CompilationDto update(Long compId, UpdateCompilationRequest updateCompilationRequest) {
         Compilation compilation = compilationRepository.findById(compId)
-                .orElseThrow(() -> new NotFoundException(""));
+                .orElseThrow(() -> new NotFoundException("Подборка событий не найдена"));
         Compilation mapped = CompilationMapper.toCompilationUpdate(updateCompilationRequest, compilation);
         Compilation updatedCategory = compilationRepository.save(mapped);
         return CompilationMapper.toCompilationDto(updatedCategory);

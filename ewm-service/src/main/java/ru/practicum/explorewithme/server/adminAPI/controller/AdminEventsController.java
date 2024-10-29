@@ -1,6 +1,5 @@
 package ru.practicum.explorewithme.server.adminAPI.controller;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -13,13 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.explorewithme.server.adminAPI.servise.event.EventService;
 import ru.practicum.explorewithme.server.dto.event.EventFullDto;
 import ru.practicum.explorewithme.server.dto.event.UpdateEventAdminRequest;
-import ru.practicum.explorewithme.server.model.enums.EventState;
 import ru.practicum.explorewithme.server.publicAPI.dto.RequestParamEvent;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor

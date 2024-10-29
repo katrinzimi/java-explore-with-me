@@ -43,7 +43,7 @@ public class PublicEventsController {
                                       @RequestParam(defaultValue = "0") @PositiveOrZero int from,
                                       @RequestParam(defaultValue = "10") @Positive int size,
                                       HttpServletRequest request) {
-        log.info("");
+        log.info("Поучение списка событий");
         RequestParamEvent param = RequestParamEvent
                 .builder()
                 .text(text)
@@ -63,7 +63,7 @@ public class PublicEventsController {
 
     @GetMapping("/{id}")
     public EventFullDto get(@PathVariable Long id, HttpServletRequest request) {
-        log.info("");
+        log.info("Получение события");
         return eventsService.get(id, request);
     }
 }

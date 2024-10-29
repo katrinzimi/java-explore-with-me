@@ -21,15 +21,16 @@ public class PublicCategoriesController {
     @ResponseStatus(HttpStatus.OK)
     public List<CategoryDto> getAll(@RequestParam(defaultValue = "0") int from,
                                     @RequestParam(defaultValue = "10") int size) {
+        log.info("Получение списка категорий");
         List<CategoryDto> result = categoriesService.getAll(from, size);
-        log.info("{}", result.size());
+        log.info("Список категорий: {}", result.size());
         return result;
     }
 
     @GetMapping("/{catId}")
     @ResponseStatus(HttpStatus.OK)
     public CategoryDto get(@PathVariable Long catId) {
-        log.info("");
+        log.info("Получение категории  по id {}", catId);
         return categoriesService.get(catId);
     }
 }

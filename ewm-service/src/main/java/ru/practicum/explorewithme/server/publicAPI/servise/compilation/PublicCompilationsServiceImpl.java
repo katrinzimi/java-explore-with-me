@@ -31,6 +31,6 @@ public class PublicCompilationsServiceImpl implements PublicCompilationsService 
     @Override
     public CompilationDto get(Long comId) {
         return CompilationMapper.toCompilationDto(repository.findById(comId)
-                .orElseThrow(() -> new NullPointerException("HYETA")));
+                .orElseThrow(() -> new NullPointerException("Событие не найдено")));
     }
 }

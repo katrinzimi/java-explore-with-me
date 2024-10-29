@@ -22,14 +22,14 @@ public class PublicCompilationsController {
     public List<CompilationDto> getAll(@RequestParam(required = false) Boolean pinned,
                                        @RequestParam(defaultValue = "0") int from,
                                        @RequestParam(defaultValue = "10") int size) {
-        log.info("");
+        log.info("Получение списка подборки событий");
         return compilationsService.getAll(pinned, from, size);
     }
 
     @GetMapping("/{comId}")
     @ResponseStatus(HttpStatus.OK)
     public CompilationDto get(@PathVariable Long comId) {
-        log.info("");
+        log.info("Получение подборки событий по её id {}", comId);
         return compilationsService.get(comId);
     }
 }

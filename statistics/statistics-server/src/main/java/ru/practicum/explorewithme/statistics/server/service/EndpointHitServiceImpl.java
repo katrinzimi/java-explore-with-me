@@ -10,7 +10,6 @@ import ru.practicum.explorewithme.statistics.server.exception.ValidationExceptio
 import ru.practicum.explorewithme.statistics.server.model.EndpointHitMapper;
 import ru.practicum.explorewithme.statistics.server.repository.EndpointHitRepository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static java.time.temporal.ChronoUnit.SECONDS;
@@ -28,11 +27,12 @@ public class EndpointHitServiceImpl implements EndpointHitService {
 
     @Override
     public List<ViewStatsDto> getStats(StatsRequestDto requestDto) {
-        if (requestDto.getStart() == null) {
-            requestDto.setStart(LocalDateTime.MIN);
-        } else {
-            requestDto.setStart(requestDto.getStart().truncatedTo(SECONDS));
+        if (requestDto.getEnd() == null && requestDto.getStart() == null) {
+            throw new ValidationException("Отсутствуют даты начаа и конца");
         }
+
+        requestDto.setStart(requestDto.getStart().truncatedTo(SECONDS));
+
         if (requestDto.getStart().isAfter(requestDto.getEnd())) {
             throw new ValidationException("Неверные даты");
         }

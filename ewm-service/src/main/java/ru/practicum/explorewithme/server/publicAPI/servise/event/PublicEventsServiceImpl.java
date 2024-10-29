@@ -51,6 +51,7 @@ public class PublicEventsServiceImpl implements PublicEventsService {
                     .collect(Collectors.toMap(Pair::getFirst, Pair::getSecond));
             List<ViewStatsDto> stats = statsClient.stats(StatsRequestDto.builder()
                     .start(minEventDate)
+                    .end(LocalDateTime.now())
                     .unique(true)
                     .uri(uris.keySet().stream().toList())
                     .build());
@@ -73,6 +74,7 @@ public class PublicEventsServiceImpl implements PublicEventsService {
         saveEndpointHit(request);
         List<ViewStatsDto> stats = statsClient.stats(StatsRequestDto.builder()
                 .start(event.getCreatedOn())
+                .end(LocalDateTime.now())
                 .unique(true)
                 .uri(List.of("/events/" + id))
                 .build());

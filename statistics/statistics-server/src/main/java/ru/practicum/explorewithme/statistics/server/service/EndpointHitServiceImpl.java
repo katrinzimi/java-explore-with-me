@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 import ru.practicum.explorewithme.statistics.dto.EndpointHitDto;
 import ru.practicum.explorewithme.statistics.dto.StatsRequestDto;
 import ru.practicum.explorewithme.statistics.dto.ViewStatsDto;
+import ru.practicum.explorewithme.statistics.server.exception.ValidationException;
 import ru.practicum.explorewithme.statistics.server.model.EndpointHitMapper;
 import ru.practicum.explorewithme.statistics.server.repository.EndpointHitRepository;
-import static java.time.temporal.ChronoUnit.SECONDS;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,9 +26,11 @@ public class EndpointHitServiceImpl implements EndpointHitService {
 
     @Override
     public List<ViewStatsDto> getStats(StatsRequestDto requestDto) {
-        requestDto.setStart(requestDto.getStart().truncatedTo(SECONDS));
-        if (requestDto.getEnd() == null) {
-            requestDto.setEnd(LocalDateTime.now().truncatedTo(SECONDS));
+        if (requestDto.getStart() == null) {
+            requestDto.setStart(LocalDateTime.MIN);
+        }
+        if (requestDto.getStart().isAfter(requestDto.getEnd())) {
+            throw new ValidationException("Неверные даты");
         }
         log.info("requestDto: {}", requestDto);
         if (requestDto.getUnique()) {

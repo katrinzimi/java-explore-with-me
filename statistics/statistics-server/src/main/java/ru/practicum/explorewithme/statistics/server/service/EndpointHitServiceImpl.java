@@ -13,6 +13,8 @@ import ru.practicum.explorewithme.statistics.server.repository.EndpointHitReposi
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static java.time.temporal.ChronoUnit.SECONDS;
+
 @Service
 @AllArgsConstructor
 @Slf4j
@@ -28,6 +30,8 @@ public class EndpointHitServiceImpl implements EndpointHitService {
     public List<ViewStatsDto> getStats(StatsRequestDto requestDto) {
         if (requestDto.getStart() == null) {
             requestDto.setStart(LocalDateTime.MIN);
+        } else {
+            requestDto.setStart(requestDto.getStart().truncatedTo(SECONDS));
         }
         if (requestDto.getStart().isAfter(requestDto.getEnd())) {
             throw new ValidationException("Неверные даты");

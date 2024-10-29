@@ -51,7 +51,6 @@ public class PublicEventsServiceImpl implements PublicEventsService {
                     .collect(Collectors.toMap(Pair::getFirst, Pair::getSecond));
             List<ViewStatsDto> stats = statsClient.stats(StatsRequestDto.builder()
                     .start(minEventDate)
-                    .end(LocalDateTime.MAX)
                     .unique(true)
                     .uri(uris.keySet().stream().toList())
                     .build());
@@ -74,16 +73,16 @@ public class PublicEventsServiceImpl implements PublicEventsService {
         saveEndpointHit(request);
         List<ViewStatsDto> stats = statsClient.stats(StatsRequestDto.builder()
                 .start(event.getCreatedOn())
-                .end(LocalDateTime.MAX)
                 .unique(true)
                 .uri(List.of("/events/" + id))
                 .build());
         EventFullDto result = EventMapper.toEventFullDto(event);
         if (!stats.isEmpty()) {
             result.setViews((int) stats.get(0).getHits());
+        } else {
+            System.out.println("lololo");
         }
         return result;
-
     }
 
     private void saveEndpointHit(HttpServletRequest request) {

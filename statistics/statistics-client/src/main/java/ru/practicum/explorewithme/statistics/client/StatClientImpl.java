@@ -27,14 +27,18 @@ public class StatClientImpl implements StatClient {
     @Override
     public List<ViewStatsDto> stats(StatsRequestDto requestDto) {
         try {
-            var uri = UriComponentsBuilder.fromUriString(serverUrl)
+            UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(serverUrl)
                     .path("/stats")
-                    .queryParam("start", requestDto.getStart())
-                    .queryParam("end", requestDto.getEnd())
                     .queryParam("uri", requestDto.getUri())
-                    .queryParam("unique", requestDto.getUnique())
-                    .build()
-                    .toUri();
+                    .queryParam("unique", requestDto.getUnique());
+            if (requestDto.getStart() != null) {
+                builder.queryParam("start", requestDto.getStart());
+            }
+            if (requestDto.getEnd() != null) {
+                builder.queryParam("end", requestDto.getEnd());
+            }
+
+            var uri = builder.build().toUri();
             RequestEntity<Void> requestEntity = RequestEntity.get(uri).build();
             ResponseEntity<List<ViewStatsDto>> response = restTemplate.exchange(requestEntity,
                     new ParameterizedTypeReference<>() {

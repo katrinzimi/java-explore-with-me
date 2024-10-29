@@ -10,7 +10,6 @@ import org.springframework.util.CollectionUtils;
 import ru.practicum.explorewithme.server.model.Category;
 import ru.practicum.explorewithme.server.model.Event;
 import ru.practicum.explorewithme.server.model.User;
-import ru.practicum.explorewithme.server.model.enums.EventState;
 import ru.practicum.explorewithme.server.publicAPI.dto.RequestParamEvent;
 
 import java.time.LocalDateTime;
@@ -75,8 +74,6 @@ public class EventCriteriaRepositoryImpl implements EventCriteriaRepository {
         }
         if (!CollectionUtils.isEmpty(request.getStates())) {
             predicates.add(eventRoot.get("state").in(request.getStates()));
-        } else {
-            predicates.add(builder.equal(eventRoot.get("state"), EventState.PUBLISHED));
         }
         Predicate allPredicates = builder.and(predicates.toArray(new Predicate[0]));
 

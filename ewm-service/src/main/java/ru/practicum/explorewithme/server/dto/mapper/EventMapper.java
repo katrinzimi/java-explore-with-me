@@ -53,7 +53,7 @@ public class EventMapper {
     }
 
     public static Event toEvent(NewEventDto eventDto, User user) {
-        Event build = Event.builder()
+        return Event.builder()
                 .paid(eventDto.isPaid())
                 .title(eventDto.getTitle())
                 .annotation(eventDto.getAnnotation())
@@ -68,10 +68,6 @@ public class EventMapper {
                 .requestModeration(eventDto.isRequestModeration())
                 .description(eventDto.getDescription())
                 .build();
-        if (!eventDto.isRequestModeration()) {
-            build.setState(EventState.PUBLISHED);
-        }
-        return build;
     }
 
     public static Event toEventUpdate(UpdateEventAdminRequest updateEventAdminRequest, Event event) {

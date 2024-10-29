@@ -27,7 +27,7 @@ public class EndpointHitServiceImpl implements EndpointHitService {
 
     @Override
     public List<ViewStatsDto> getStats(StatsRequestDto requestDto) {
-        if (requestDto.getEnd() == null && requestDto.getStart() == null) {
+        if (requestDto.getEnd() == null || requestDto.getStart() == null) {
             throw new ValidationException("Отсутствуют даты начаа и конца");
         }
 

@@ -57,6 +57,6 @@ public class AdminEventsController {
                 .from(from)
                 .size(size)
                 .build();
-        return eventService.getAll(param);
+        return eventService.getAllFullEvents(param);
     }
 }

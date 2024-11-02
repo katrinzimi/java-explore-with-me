@@ -7,7 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explorewithme.server.compilation.dto.CompilationDto;
-import ru.practicum.explorewithme.server.compilation.service.PublicCompilationsService;
+import ru.practicum.explorewithme.server.compilation.service.CompilationService;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import java.util.List;
 @RequestMapping("/compilations")
 public class PublicCompilationsController {
 
-    public final PublicCompilationsService compilationsService;
+    public final CompilationService compilationsService;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)

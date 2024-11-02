@@ -7,7 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explorewithme.server.category.dto.CategoryDto;
-import ru.practicum.explorewithme.server.category.service.PublicCategoriesService;
+import ru.practicum.explorewithme.server.category.service.CategoriesService;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import java.util.List;
 @RequestMapping("/categories")
 public class PublicCategoriesController {
 
-    public final PublicCategoriesService categoriesService;
+    public final CategoriesService categoriesService;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)

@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explorewithme.server.event.dto.ParticipationRequestDto;
-import ru.practicum.explorewithme.server.request.service.PrivateRequestService;
+import ru.practicum.explorewithme.server.request.service.RequestService;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/users/{userId}/requests")
 public class PrivateRequestController {
 
-    private final PrivateRequestService service;
+    private final RequestService service;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)

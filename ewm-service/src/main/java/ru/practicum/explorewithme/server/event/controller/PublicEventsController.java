@@ -13,7 +13,7 @@ import ru.practicum.explorewithme.server.event.dto.EventFullDto;
 import ru.practicum.explorewithme.server.event.dto.EventShortDto;
 import ru.practicum.explorewithme.server.event.dto.RequestParamEvent;
 import ru.practicum.explorewithme.server.event.dto.RequestParamEventSort;
-import ru.practicum.explorewithme.server.event.service.PublicEventsService;
+import ru.practicum.explorewithme.server.event.service.EventService;
 import ru.practicum.explorewithme.statistics.client.StatClient;
 
 import java.time.LocalDateTime;
@@ -26,7 +26,7 @@ import java.util.List;
 @Validated
 public class PublicEventsController {
 
-    private final PublicEventsService eventsService;
+    private final EventService eventsService;
     private final StatClient statClient;
 
     @GetMapping
@@ -58,7 +58,7 @@ public class PublicEventsController {
                 .size(size)
                 .request(RequestContext.builder().uri(request.getRequestURI()).ip(request.getRemoteAddr()).build())
                 .build();
-        List<EventShortDto> result = eventsService.getAll(param);
+        List<EventShortDto> result = eventsService.getAllShortEvents(param);
         return result;
     }
 

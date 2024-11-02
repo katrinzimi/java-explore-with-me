@@ -15,7 +15,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class AdminUserServiceImpl implements AdminUserService {
+public class UserServiceImpl implements UserService {
     private final UserRepository repository;
 
     @Override

@@ -6,7 +6,7 @@ import ru.practicum.explorewithme.server.user.dto.UserDto;
 
 import java.util.List;
 
-public interface AdminUserService {
+public interface UserService {
     List<UserDto> getAll(List<Long> ids, Pageable request);
 
     UserDto save(NewUserRequest newUserRequest);

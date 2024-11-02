@@ -4,7 +4,7 @@ import ru.practicum.explorewithme.server.event.dto.ParticipationRequestDto;
 
 import java.util.List;
 
-public interface PrivateRequestService {
+public interface RequestService {
     List<ParticipationRequestDto> getRequests(Long userId);
 
     ParticipationRequestDto create(Long userId, Long eventId);

@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.explorewithme.server.compilation.service.AdminCompilationService;
+import ru.practicum.explorewithme.server.compilation.service.CompilationService;
 import ru.practicum.explorewithme.server.compilation.dto.CompilationDto;
 import ru.practicum.explorewithme.server.compilation.dto.NewCompilationDto;
 import ru.practicum.explorewithme.server.compilation.dto.UpdateCompilationRequest;
@@ -15,7 +15,7 @@ import ru.practicum.explorewithme.server.compilation.dto.UpdateCompilationReques
 @Slf4j
 @RequestMapping("/admin/compilations")
 public class AdminCompilationsController {
-    private final AdminCompilationService service;
+    private final CompilationService service;
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)

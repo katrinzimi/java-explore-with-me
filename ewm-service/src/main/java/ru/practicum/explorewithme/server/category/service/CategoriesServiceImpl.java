@@ -1,23 +1,25 @@
 package ru.practicum.explorewithme.server.category.service;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.explorewithme.server.exception.NotFoundException;
 import ru.practicum.explorewithme.server.category.dto.CategoryDto;
 import ru.practicum.explorewithme.server.category.dto.NewCategoryDto;
-import ru.practicum.explorewithme.server.mapper.CategoryMapper;
 import ru.practicum.explorewithme.server.exception.ConflictException;
+import ru.practicum.explorewithme.server.exception.NotFoundException;
+import ru.practicum.explorewithme.server.mapper.CategoryMapper;
 import ru.practicum.explorewithme.server.model.Category;
 import ru.practicum.explorewithme.server.model.Event;
 import ru.practicum.explorewithme.server.repository.CategoriesRepository;
 import ru.practicum.explorewithme.server.repository.EventRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class AdminCategoriesServiceImpl implements AdminCategoriesService {
+public class CategoriesServiceImpl implements CategoriesService {
     private final CategoriesRepository categoriesRepository;
     private final EventRepository eventRepository;
 
@@ -52,5 +54,22 @@ public class AdminCategoriesServiceImpl implements AdminCategoriesService {
         Category mapped = CategoryMapper.toCategory(dto, oldCategory);
         Category updatedCategory = categoriesRepository.save(mapped);
         return CategoryMapper.toCategoryDto(updatedCategory);
+    }
+
+    @Override
+    @Transactional
+    public List<CategoryDto> getAll(Pageable pageable) {
+        return categoriesRepository.findAll(pageable)
+                .getContent()
+                .stream()
+                .map(CategoryMapper::toCategoryDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public CategoryDto get(Long catId) {
+        return CategoryMapper.toCategoryDto(categoriesRepository.findById(catId)
+                .orElseThrow(() -> new NotFoundException("Категория не найдена")));
     }
 }

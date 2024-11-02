@@ -9,7 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.explorewithme.server.user.service.AdminUserService;
+import ru.practicum.explorewithme.server.user.service.UserService;
 import ru.practicum.explorewithme.server.user.dto.NewUserRequest;
 import ru.practicum.explorewithme.server.user.dto.UserDto;
 
@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping("/admin/users")
 public class AdminUsersController {
 
-    private final AdminUserService service;
+    private final UserService service;
 
     @SuppressWarnings("checkstyle:WhitespaceAround")
     @GetMapping()

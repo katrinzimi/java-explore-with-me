@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explorewithme.server.event.dto.*;
-import ru.practicum.explorewithme.server.event.service.PrivateEventsService;
+import ru.practicum.explorewithme.server.event.service.EventService;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping("/users/{userId}/events")
 public class PrivateEventsController {
 
-    public final PrivateEventsService service;
+    public final EventService service;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -24,7 +24,7 @@ public class PrivateEventsController {
                                       @RequestParam(defaultValue = "0") Integer from,
                                       @RequestParam(defaultValue = "10") Integer size) {
         log.info("Получение событий, добавленных текущим пользователем");
-        return service.getAll(userId, from, size);
+        return service.getAllShortEvents(userId, from, size);
     }
 
     @GetMapping("/{eventId}")

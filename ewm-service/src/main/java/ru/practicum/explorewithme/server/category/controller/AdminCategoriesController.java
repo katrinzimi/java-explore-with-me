@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.explorewithme.server.category.service.AdminCategoriesService;
+import ru.practicum.explorewithme.server.category.service.CategoriesService;
 import ru.practicum.explorewithme.server.category.dto.CategoryDto;
 import ru.practicum.explorewithme.server.category.dto.NewCategoryDto;
 
@@ -15,7 +15,7 @@ import ru.practicum.explorewithme.server.category.dto.NewCategoryDto;
 @RequestMapping("/admin/categories")
 public class AdminCategoriesController {
 
-    public final AdminCategoriesService service;
+    public final CategoriesService service;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

@@ -10,7 +10,7 @@ import org.springframework.util.CollectionUtils;
 import ru.practicum.explorewithme.server.model.Category;
 import ru.practicum.explorewithme.server.model.Event;
 import ru.practicum.explorewithme.server.model.User;
-import ru.practicum.explorewithme.server.publicAPI.dto.RequestParamEvent;
+import ru.practicum.explorewithme.server.event.dto.RequestParamEvent;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

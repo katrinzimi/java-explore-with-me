@@ -45,8 +45,8 @@ public class Event {
     @Column()
     private boolean paid;
 
-    @Column(name = "confirmed_requests")
-    private int confirmedRequests;
+//    @Column(name = "confirmed_requests")
+//    private int confirmedRequests;
 
     @Column()
     @Builder.Default
@@ -55,9 +55,6 @@ public class Event {
     @JoinColumn(name = "initiator_id")
     @ManyToOne
     private User initiator;
-
-    @Column
-    private Integer views;
 
     @Column()
     private LocalDateTime createdOn;

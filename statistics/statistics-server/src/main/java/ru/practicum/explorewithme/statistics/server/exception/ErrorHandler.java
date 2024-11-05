@@ -29,4 +29,13 @@ public class ErrorHandler {
         );
     }
 
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiError handle(final ValidationException e) {
+        log.info("Ошибка 400 при обработке запроса");
+        return new ApiError(
+                "Ошибка с параметром count.", e.getMessage()
+        );
+    }
+
 }

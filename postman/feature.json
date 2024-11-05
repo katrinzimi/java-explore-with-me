@@ -150,6 +150,13 @@
 						"type": "text/javascript",
 						"packages": {}
 					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"packages": {},
+						"type": "text/javascript"
+					}
 				}
 			],
 			"request": {
@@ -175,6 +182,18 @@
 						"comments",
 						":commentId"
 					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					],
 					"variable": [
 						{
 							"key": "id",
@@ -184,7 +203,7 @@
 						},
 						{
 							"key": "commentId",
-							"value": "13"
+							"value": "1"
 						}
 					]
 				}
@@ -335,7 +354,7 @@
 						},
 						{
 							"key": "commentId",
-							"value": "4"
+							"value": "1"
 						}
 					]
 				}

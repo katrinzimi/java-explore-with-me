@@ -10,7 +10,7 @@
 			"name": "Добавление комментария",
 			"event": [
 				{
-					c"listen": "test",
+					"listen": "test",
 					"script": {
 						"exec": [
 							"pm.test(\"Ответ должен содержать код статуса 201 и данные в формате json\", function () {\r",

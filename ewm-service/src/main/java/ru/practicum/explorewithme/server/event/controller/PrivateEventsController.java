@@ -6,9 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explorewithme.server.event.dto.*;
-import ru.practicum.explorewithme.server.event.dto.comment.CommentDto;
-import ru.practicum.explorewithme.server.event.dto.comment.CommentNewDto;
-import ru.practicum.explorewithme.server.event.dto.comment.CommentUpdateDto;
 import ru.practicum.explorewithme.server.event.service.CommentService;
 import ru.practicum.explorewithme.server.event.service.EventService;
 

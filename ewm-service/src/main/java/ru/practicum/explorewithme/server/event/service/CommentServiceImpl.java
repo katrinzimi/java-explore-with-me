@@ -27,38 +27,47 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentDto save(Long eventId, CommentNewDto dto) {
-        eventRepository.findById(eventId).orElseThrow(() -> new NotFoundException(""));
+        eventRepository.findById(eventId).orElseThrow(() -> new NotFoundException("Данного события не существует"));
         return CommentMapper.toCommentDto(commentRepository.save(CommentMapper.toComment(eventId, dto)));
     }
 
     @Override
     public CommentDto update(Long eventId, Long commentId, CommentUpdateDto dto) {
-        eventRepository.findById(eventId).orElseThrow(() -> new NotFoundException(""));
-        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new NotFoundException(""));
+        eventRepository.findById(eventId).orElseThrow(() -> new NotFoundException("Данного события не существует"));
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new NotFoundException("Данного комментария не найдено"));
+        if (!dto.getUserId().equals(comment.getUser().getId())) {
+            throw new ValidationException("Данный пользователь не может изменить комментарий");
+        }
         return CommentMapper.toCommentDto(commentRepository.save(CommentMapper.toComment(comment, dto)));
     }
 
     @Override
     public List<CommentDto> getAllComments(Long eventId, Pageable request) {
-        eventRepository.findById(eventId).orElseThrow(() -> new NotFoundException(""));
+        eventRepository.findById(eventId).orElseThrow(() -> new NotFoundException("Данного события не существует"));
         List<Comment> allByEventId = commentRepository.findAllByEventId(eventId, request);
         return CommentMapper.commentDtoList(allByEventId);
     }
 
     @Override
     public List<CommentDto> getAllCommentsByUserId(Long userId, PageRequest request) {
-        userRepository.findById(userId).orElseThrow(() -> new NotFoundException(""));
+        userRepository.findById(userId).orElseThrow(() -> new NotFoundException("Данного пользователя не существует"));
         List<Comment> allByUserId = commentRepository.findAllByUserId(userId, request);
         return CommentMapper.commentDtoList(allByUserId);
     }
 
     @Override
-    public void delete(Long userId, Long commentId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException(""));
-        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new NotFoundException(""));
+    public void deleteComment(Long userId, Long commentId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("Данного пользователя не существует"));
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new NotFoundException("Данного комментария не найдено"));
         if (!comment.getUser().equals(user)) {
             throw new ValidationException("Данный пользователь не может удалить комментарий");
         }
         commentRepository.deleteById(commentId);
     }
+
+    @Override
+    public void deleteComment(Long commentId) {
+        commentRepository.deleteById(commentId);
+    }
 }
+

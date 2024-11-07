@@ -88,7 +88,6 @@ public class PublicEventsController {
     }
 
     @GetMapping("/{eventId}/comments")
-    @ResponseStatus(HttpStatus.OK)
     public List<CommentDto> getAllComments(@PathVariable Long eventId,
                                            @RequestParam(defaultValue = "0") @PositiveOrZero int from,
                                            @RequestParam(defaultValue = "10") @Positive int size) {

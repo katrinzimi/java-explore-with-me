@@ -1,5 +1,7 @@
 package ru.practicum.explorewithme.server.mapper;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import ru.practicum.explorewithme.server.event.dto.comment.CommentDto;
 import ru.practicum.explorewithme.server.event.dto.comment.CommentNewDto;
 import ru.practicum.explorewithme.server.event.dto.comment.CommentUpdateDto;
@@ -10,6 +12,7 @@ import ru.practicum.explorewithme.server.model.User;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CommentMapper {
     public static Comment toComment(Long eventId, CommentNewDto dto) {
         return Comment.builder()

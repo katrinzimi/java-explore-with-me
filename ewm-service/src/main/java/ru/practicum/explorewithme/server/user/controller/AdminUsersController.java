@@ -9,7 +9,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.explorewithme.server.event.dto.comment.CommentDto;
 import ru.practicum.explorewithme.server.event.service.CommentService;
 import ru.practicum.explorewithme.server.user.dto.NewUserRequest;
 import ru.practicum.explorewithme.server.user.dto.UserDto;
@@ -46,25 +45,15 @@ public class AdminUsersController {
     @DeleteMapping("/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long userId) {
-        log.info("Удаение пользователя с id {}", userId);
+        log.info("Удаление пользователя с id {}", userId);
         service.delete(userId);
     }
 
-    @GetMapping("/{userId}/comments")
-    public List<CommentDto> getAllComments(@PathVariable Long userId,
-                                           @RequestParam(defaultValue = "0") @PositiveOrZero int from,
-                                           @RequestParam(defaultValue = "10") @Positive int size) {
-        log.info(" {}", userId);
-        PageRequest request = PageRequest.of(from / size, size,
-                Sort.by(Sort.Direction.ASC, "id"));
-        return commentService.getAllCommentsByUserId(userId, request);
-    }
-
-    @DeleteMapping("/{userId}/comments/{commentId}")
+    @DeleteMapping("/comments/{commentId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteComment(@PathVariable Long userId, @PathVariable Long commentId) {
+    public void deleteComment(@PathVariable Long commentId) {
         log.info(" {}", commentId);
-        commentService.delete(userId, commentId);
+        commentService.deleteComment(commentId);
     }
 
 }

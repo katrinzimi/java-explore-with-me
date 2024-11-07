@@ -18,5 +18,7 @@ public interface CommentService {
 
     List<CommentDto> getAllCommentsByUserId(Long userId, PageRequest request);
 
-    void delete(Long userId, Long commentId);
+    void deleteComment(Long userId, Long commentId);
+
+    void deleteComment(Long commentId);
 }

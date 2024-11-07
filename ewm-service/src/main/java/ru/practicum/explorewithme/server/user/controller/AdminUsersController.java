@@ -9,9 +9,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.explorewithme.server.user.service.UserService;
+import ru.practicum.explorewithme.server.event.service.CommentService;
 import ru.practicum.explorewithme.server.user.dto.NewUserRequest;
 import ru.practicum.explorewithme.server.user.dto.UserDto;
+import ru.practicum.explorewithme.server.user.service.UserService;
 
 import java.util.List;
 
@@ -22,8 +23,8 @@ import java.util.List;
 public class AdminUsersController {
 
     private final UserService service;
+    private final CommentService commentService;
 
-    @SuppressWarnings("checkstyle:WhitespaceAround")
     @GetMapping()
     public List<UserDto> getAll(@RequestParam(required = false) List<Long> ids,
                                 @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
@@ -44,7 +45,15 @@ public class AdminUsersController {
     @DeleteMapping("/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long userId) {
-        log.info("Удаение пользователя с id {}", userId);
+        log.info("Удаление пользователя с id {}", userId);
         service.delete(userId);
     }
+
+    @DeleteMapping("/comments/{commentId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteComment(@PathVariable Long commentId) {
+        log.info(" {}", commentId);
+        commentService.deleteComment(commentId);
+    }
+
 }

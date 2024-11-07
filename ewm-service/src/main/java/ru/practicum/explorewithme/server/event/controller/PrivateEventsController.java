@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explorewithme.server.event.dto.*;
+import ru.practicum.explorewithme.server.event.service.CommentService;
 import ru.practicum.explorewithme.server.event.service.EventService;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
 public class PrivateEventsController {
 
     public final EventService service;
+    private final CommentService commentService;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
